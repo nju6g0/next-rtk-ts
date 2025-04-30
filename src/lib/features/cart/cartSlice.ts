@@ -1,30 +1,42 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-interface CartItem {
-  id: string;
-  title: string;
-  price: number;
-  image: string;
-  description: string;
-  quantity: number;
-}
-interface CartState {
-  items: CartItem[];
-  totalQuantity: number;
-  totalPrice: number;
-}
+import { CartItem, CartState } from "@/interfaces/cart";
+
 const initialState: CartState = {
   items: [],
   totalQuantity: 0,
   totalPrice: 0,
+  loading: false,
+  error: null,
 };
+
+// ✳️ 取得所有 Posts
+export const getCartItems = createAsyncThunk(
+  "cart/getCartItems",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetch(`/api/cart`);
+      console.log(res);
+      const resData = await res.json();
+      console.log(resData);
+      if (!res.ok) {
+        return rejectWithValue(resData.error);
+      }
+      return resData;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addItem: (state, action) => {
-      const { id, price, title, image, description } = action.payload;
-      state.items.push({ id, quantity: 1, price, title, image, description });
+      const { id, price, name, image, description } = action.payload;
+      state.items.push({ id, quantity: 1, price, name, image, description });
       state.totalQuantity += 1;
       state.totalPrice += price;
     },
@@ -41,6 +53,25 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       state.totalPrice = 0;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getCartItems.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getCartItems.fulfilled, (state, action) => {
+        const items: CartItem[] = action.payload.cartItems;
+        state.items = items;
+        state.totalQuantity = items.length;
+        state.totalPrice = items.reduce((total, item) => total + item.price, 0);
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(getCartItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
   },
 });
 
