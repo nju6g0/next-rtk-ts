@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { CartItem } from "@/interfaces/cart";
+import { CartItem } from "@/interfaces";
 
 const cartItems: CartItem[] = [
   {

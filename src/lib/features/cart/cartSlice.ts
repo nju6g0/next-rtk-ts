@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { CartItem, CartState } from "@/interfaces/cart";
+import { CartItem, CartState } from "@/interfaces";
 
 const initialState: CartState = {
   items: [],
@@ -25,7 +25,7 @@ export const getCartItems = createAsyncThunk(
       return resData;
     } catch (error) {
       console.log(error);
-      return rejectWithValue(error);
+      return rejectWithValue("無法連線到伺服器");
     }
   }
 );

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { getCartItems } from "@/lib/features/cart/cartSlice";
 import { getAllCartItems, getLoading } from "@/lib/features/cart/cartSelectors";
+import { CartItem } from "@/interfaces";
 
 export default function Login() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,9 @@ export default function Login() {
   return (
     <main>
       <h1>我是購物車頁</h1>
+      {items.map((item: CartItem) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
     </main>
   );
 }
