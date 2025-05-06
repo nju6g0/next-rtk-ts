@@ -10,21 +10,18 @@ const initialState: CartState = {
   error: null,
 };
 
-// ✳️ 取得所有 Posts
+// 取得購物車資料
 export const getCartItems = createAsyncThunk(
   "cart/getCartItems",
   async (_, { rejectWithValue }) => {
     try {
       const res = await fetch(`/api/cart`);
-      console.log(res);
       const resData = await res.json();
-      console.log(resData);
       if (!res.ok) {
         return rejectWithValue(resData.error);
       }
       return resData;
     } catch (error) {
-      console.log(error);
       return rejectWithValue("無法連線到伺服器");
     }
   }
