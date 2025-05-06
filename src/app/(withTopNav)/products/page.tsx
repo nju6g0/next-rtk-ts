@@ -1,7 +1,8 @@
 import ProductsClient from "./productsClient";
 
 async function fetchTodos() {
-  const res = await fetch("http://localhost:5500/api/products", {
+  const url = process.env.API_END_POINT;
+  const res = await fetch(`${url}/products`, {
     next: { revalidate: 10 },
   });
   return res.json();
