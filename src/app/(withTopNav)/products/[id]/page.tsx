@@ -13,7 +13,7 @@ interface PageProps {
   };
 }
 
-export default async function TodoPage({ params }: PageProps) {
+export default async function ProductPage({ params }: PageProps) {
   const { id } = params;
   const res = await fetchProduct(id);
 
