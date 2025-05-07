@@ -4,6 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { JSX } from "react";
 
+import { useAppSelector } from "@/lib/hooks";
+import { getTotalQuantity } from "@/lib/features/cart/cartSelectors";
+
 type Route = {
   name: string;
   href: string;
@@ -18,6 +21,7 @@ const ROUTES: Route[] = [
 interface TopNavProps {}
 export function TopNav({}: TopNavProps): JSX.Element {
   const pathname = usePathname(); // 獲取當前頁面路徑
+  const cartItemNums = useAppSelector(getTotalQuantity);
 
   return (
     <header className="bg-gray-800 text-white p-4">
@@ -35,6 +39,7 @@ export function TopNav({}: TopNavProps): JSX.Element {
           </Link>
         ))}
       </nav>
+      <p>{cartItemNums}</p>
     </header>
   );
 }
