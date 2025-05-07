@@ -3,7 +3,7 @@ import { Product as ProductType } from "@/interfaces";
 interface ProductProps {
   productData: ProductType;
 }
-export default function Login({ productData }: ProductProps) {
+export default function Product({ productData }: ProductProps) {
   console.log(productData);
   return (
     <main>
