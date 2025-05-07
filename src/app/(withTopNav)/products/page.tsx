@@ -1,6 +1,6 @@
 import ProductsClient from "./productsClient";
 
-async function fetchTodos() {
+async function fetchProducts() {
   const url = process.env.API_END_POINT;
   const res = await fetch(`${url}/products`, {
     next: { revalidate: 10 },
@@ -9,7 +9,7 @@ async function fetchTodos() {
 }
 
 export default async function TodoPage() {
-  const res = await fetchTodos();
+  const res = await fetchProducts();
 
   return <ProductsClient initialProducts={res.products} />;
 }
