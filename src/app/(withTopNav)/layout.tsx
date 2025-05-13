@@ -11,16 +11,16 @@ export default function TopNavLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const hasAuth = useAppSelector(getAuth);
-  console.log("auth", hasAuth);
+  // const hasAuth = useAppSelector(getAuth);
+  // console.log("auth", hasAuth);
 
-  useEffect(() => {
-    if (!hasAuth) {
-      window.location.href = "/login";
-    }
-  }, [hasAuth]);
+  // useEffect(() => {
+  //   if (!hasAuth) {
+  //     window.location.href = "/login";
+  //   }
+  // }, [hasAuth]);
 
-  if (!hasAuth) return <h1>請先取得通關密碼</h1>;
+  // if (!hasAuth) return <h1>請先取得通關密碼</h1>;
   return (
     <div className="flex flex-col h-screen">
       <TopNav />
