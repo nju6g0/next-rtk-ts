@@ -24,7 +24,9 @@ export default function LandingPage() {
           delay={0.3}
         />
       )}
-      <Role roleName={ROLES.EE} />
+      <div style={{ width: "100px", height: "100px" }}>
+        <Role roleName={ROLES.EE} />
+      </div>
       <Role withAnimation={false} />
     </div>
   );

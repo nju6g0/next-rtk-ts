@@ -1,8 +1,9 @@
 .container {
-  width: 324px;
-  height: 324px;
+  width: 100%;
+  max-width: 324px;
   background-repeat: no-repeat;
   background-position: bottom;
+  background-size: contain;
   position: relative;
   .roleLight {
     // transform: scale(1.2);
