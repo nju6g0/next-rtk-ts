@@ -1,7 +1,7 @@
 "use client";
 
 // import React, { useRef, useState, useEffect } from "react";
-import styles from "./style.module.scss";
+import styles from "./styles.module.scss";
 
 interface AnimatedTextProps {
   text: string;

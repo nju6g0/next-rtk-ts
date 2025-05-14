@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 import AnimatedText from "@/components/animatedText";
+import AnimatedRole, { ROLES } from "@/components/animatedRole";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -17,8 +18,13 @@ export default function LandingPage() {
         click me
       </button>
       {isVisible && (
-        <AnimatedText text="你好，這是一段會動的文字。" delay={0.3} />
+        <AnimatedText
+          className="font-bold text-dark"
+          text="你好，這是一段會動的文字。"
+          delay={0.3}
+        />
       )}
+      <AnimatedRole />
     </div>
   );
 }

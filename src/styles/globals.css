@@ -17,10 +17,31 @@
   --roleEE: #ffc700;
   --roleGG: #ff5c00;
   --roleBrown: #933500;
-  --linearPrimary: linear-gradient( rgba(0, 255, 244, 0) 0%, rgba(0, 255, 244, 0.25) 60%, rgba(0, 255, 244, 0.45) 80%,rgba(0, 255, 244, 0.7) 90%, rgba(0, 255, 244, 0.9) 100% );
-  --linearRoleSm: linear-gradient( rgba(211, 85, 255, 0) 0%, rgba(211, 85, 255, 0.05) 60%, rgba(211, 85, 255, 0.2) 80%,rgba(211, 85, 255, 0.6) 100% );
-  --linearRoleEE: linear-gradient( rgba(255, 199, 0, 0) 0%, rgba(255, 199, 0, 0.05) 60%, rgba(255, 199, 0, 0.2) 80%,rgba(255, 199, 0, 0.6) 100% );
-  --linearRoleGG: linear-gradient( rgba(255, 122, 0, 0) 0%, rgba(255, 122, 0, 0.05) 60%, rgba(255, 122, 0, 0.2) 80%,rgba(255, 122, 0, 0.6) 100% );
+  --linearPrimary: linear-gradient(
+    rgba(0, 255, 244, 0) 0%,
+    rgba(0, 255, 244, 0.25) 60%,
+    rgba(0, 255, 244, 0.45) 80%,
+    rgba(0, 255, 244, 0.7) 90%,
+    rgba(0, 255, 244, 0.9) 100%
+  );
+  --linearRoleSm: linear-gradient(
+    rgba(211, 85, 255, 0) 0%,
+    rgba(211, 85, 255, 0.05) 60%,
+    rgba(211, 85, 255, 0.2) 80%,
+    rgba(211, 85, 255, 0.6) 100%
+  );
+  --linearRoleEE: linear-gradient(
+    rgba(255, 199, 0, 0) 0%,
+    rgba(255, 199, 0, 0.05) 60%,
+    rgba(255, 199, 0, 0.2) 80%,
+    rgba(255, 199, 0, 0.6) 100%
+  );
+  --linearRoleGG: linear-gradient(
+    rgba(255, 122, 0, 0) 0%,
+    rgba(255, 122, 0, 0.05) 60%,
+    rgba(255, 122, 0, 0.2) 80%,
+    rgba(255, 122, 0, 0.6) 100%
+  );
 }
 
 @theme {
@@ -37,8 +58,11 @@
   --color-primary: var(--primary);
   --color-primary-100: var(--primaryDark);
   --color-primary-200: var(--primaryDeepDark);
-
-  /* ... */
+  --color-dark: var(--textDark);
+  --color-role-sm: var(--roleSm);
+  --color-role-ee: var(--roleEE);
+  --color-role-gg: var(--roleGG);
+  --color-role-brown: var(--roleBrown);
 }
 
 @theme inline {
@@ -56,8 +80,8 @@
 }
 
 body {
-  background: var(--background);
-  background-color: var(--primary);
+  /* background: var(--linearPrimary); */
+  /* background-color: var(--primary); */
   color: var(--textDark);
   font-family: Arial, Helvetica, sans-serif;
 }
