@@ -27,8 +27,8 @@ export default function LandingPage() {
         />
       )}
       <RoleWithDialog
-        roleName={ROLES.SM}
-        text="你好，這是一段會動的文字。文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文。"
+        roleName={ROLES.EE}
+        text="你好，這是一段會動的文字。文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字。"
         textInitialDelay={1.2}
         textIntervalDelay={0.1}
         direction={DIRECTIONS.RIGHT}
