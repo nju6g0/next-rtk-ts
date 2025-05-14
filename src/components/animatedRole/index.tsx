@@ -39,7 +39,7 @@ const getRoleImg = (roleName: RoleNameType) => {
 };
 
 interface roleProps {
-  roleName?: RoleName;
+  roleName?: RoleNameType;
   withAnimation?: boolean;
 }
 
