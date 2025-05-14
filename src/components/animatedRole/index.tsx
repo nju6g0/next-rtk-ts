@@ -38,7 +38,7 @@ const getRoleImg = (roleName: RoleName) => {
   }
 };
 
-interface AnimatedRoleProps {
+interface roleProps {
   roleName?: RoleName;
   withAnimation?: boolean;
 }
@@ -46,7 +46,7 @@ interface AnimatedRoleProps {
 export default function Role({
   roleName = ROLES[po],
   withAnimation = true,
-}: AnimatedRoleProps) {
+}: roleProps) {
   console.log(holeImg);
   return (
     <div

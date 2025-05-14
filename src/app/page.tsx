@@ -27,7 +27,9 @@ export default function LandingPage() {
       <div style={{ width: "100px", height: "100px" }}>
         <Role roleName={ROLES.EE} />
       </div>
-      <Role withAnimation={false} />
+      <div style={{ width: "100px", height: "100px" }}>
+        <Role withAnimation={false} />
+      </div>
     </div>
   );
 }
