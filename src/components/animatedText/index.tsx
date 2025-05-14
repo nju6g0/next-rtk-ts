@@ -5,13 +5,15 @@ import styles from "./styles.module.scss";
 
 interface AnimatedTextProps {
   text: string;
-  delay?: number; // 每個字之間的延遲（秒）
+  initialDelay?: number; // 初始延遲（秒）
+  intervalDelay?: number; // 每個字之間的延遲（秒）
   className?: string;
 }
 
 export default function AnimatedText({
   text,
-  delay = 0.1,
+  initialDelay = 0,
+  intervalDelay = 0.1,
   className,
 }: AnimatedTextProps) {
   // const containerRef = useRef<HTMLDivElement>(null);
@@ -38,7 +40,7 @@ export default function AnimatedText({
           key={char + i}
           // className={visible ? styles.animatedLetter : ""}
           className={styles.animatedLetter}
-          style={{ animationDelay: `${i * delay}s` }}
+          style={{ animationDelay: `${initialDelay + i * intervalDelay}s` }}
         >
           {char}
         </span>

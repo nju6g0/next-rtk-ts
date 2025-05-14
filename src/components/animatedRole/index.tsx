@@ -22,9 +22,9 @@ export const ROLES = {
   [gg]: gg,
   [sm]: sm,
 } as const;
-type RoleName = keyof typeof ROLES;
+export type RoleNameType = keyof typeof ROLES;
 
-const getRoleImg = (roleName: RoleName) => {
+const getRoleImg = (roleName: RoleNameType) => {
   switch (roleName) {
     case ROLES[ee]:
       return { role: RoleEEImg, light: RoleEELightImg };
@@ -55,14 +55,14 @@ export default function Role({
     >
       <Image
         src={getRoleImg(roleName).light.src}
-        alt="role_ee_light"
+        alt="role_light"
         className={`${styles.roleLight} ${withAnimation && styles.animated}`}
         width={getRoleImg(roleName).light.width}
         height={getRoleImg(roleName).light.height}
       />
       <Image
         src={getRoleImg(roleName).role}
-        alt="role_ee"
+        alt="role"
         className={`${styles.role} ${withAnimation && styles.animated}`}
         width={getRoleImg(roleName).role.width}
         height={getRoleImg(roleName).role.height}

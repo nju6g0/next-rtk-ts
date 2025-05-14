@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import AnimatedText from "@/components/animatedText";
 import Role, { ROLES } from "@/components/animatedRole";
+import RoleWithDialog from "@/components/roleWithDialog";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -21,9 +22,16 @@ export default function LandingPage() {
         <AnimatedText
           className="font-bold text-dark"
           text="你好，這是一段會動的文字。"
-          delay={0.3}
+          initialDelay={1.2}
+          intervalDelay={0.1}
         />
       )}
+      <RoleWithDialog
+        roleName={ROLES.GG}
+        text="你好，這是一段會動的文字。"
+        textInitialDelay={1.2}
+        textIntervalDelay={0.1}
+      />
       <div style={{ width: "100px", height: "100px" }}>
         <Role roleName={ROLES.EE} />
       </div>
