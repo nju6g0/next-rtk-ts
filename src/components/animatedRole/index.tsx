@@ -38,28 +38,32 @@ const getRoleImg = (roleName: RoleName) => {
   }
 };
 
-export default function AnimatedRole({
-  roleName = ROLES[po],
-}: {
+interface AnimatedRoleProps {
   roleName?: RoleName;
-}) {
+  withAnimation?: boolean;
+}
+
+export default function Role({
+  roleName = ROLES[po],
+  withAnimation = true,
+}: AnimatedRoleProps) {
   console.log(holeImg);
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${withAnimation && styles.animated}`}
       style={{ backgroundImage: `url(${holeImg.src})` }}
     >
       <Image
         src={getRoleImg(roleName).light.src}
         alt="role_ee_light"
-        className={styles.roleLight}
+        className={`${styles.roleLight} ${withAnimation && styles.animated}`}
         width={getRoleImg(roleName).light.width}
         height={getRoleImg(roleName).light.height}
       />
       <Image
         src={getRoleImg(roleName).role}
         alt="role_ee"
-        className={styles.role}
+        className={`${styles.role} ${withAnimation && styles.animated}`}
         width={getRoleImg(roleName).role.width}
         height={getRoleImg(roleName).role.height}
       />

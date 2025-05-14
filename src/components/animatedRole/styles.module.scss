@@ -3,10 +3,11 @@
   height: 324px;
   background-repeat: no-repeat;
   background-position: bottom;
-  animation: expandX 0.2s ease-out forwards;
-  transform-origin: center;
   position: relative;
   .roleLight {
+    // transform: scale(1.2);
+  }
+  .roleLight.animated {
     opacity: 0;
     animation: expandY 0.4s ease-out forwards;
     animation-delay: 0.4s;
@@ -16,11 +17,17 @@
     position: absolute;
     top: 0;
     left: 0;
+  }
+  .role.animated {
     opacity: 0;
     animation: expandY 0.2s ease-out forwards;
     transform-origin: bottom;
     animation-delay: 0.8s;
   }
+}
+.container.animated {
+  animation: expandX 0.2s ease-out forwards;
+  transform-origin: center;
 }
 
 @keyframes expandX {

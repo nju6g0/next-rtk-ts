@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 import AnimatedText from "@/components/animatedText";
-import AnimatedRole, { ROLES } from "@/components/animatedRole";
+import Role, { ROLES } from "@/components/animatedRole";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -24,7 +24,8 @@ export default function LandingPage() {
           delay={0.3}
         />
       )}
-      <AnimatedRole />
+      <Role roleName={ROLES.EE} />
+      <Role withAnimation={false} />
     </div>
   );
 }
