@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import AnimatedText from "@/components/animatedText";
 import Role, { ROLES } from "@/components/animatedRole";
-import RoleWithDialog from "@/components/roleWithDialog";
+import RoleWithDialog, {DIRECTIONS} from "@/components/roleWithDialog";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,10 +27,12 @@ export default function LandingPage() {
         />
       )}
       <RoleWithDialog
-        roleName={ROLES.GG}
-        text="你好，這是一段會動的文字。"
+        roleName={ROLES.SM}
+        text="你好，這是一段會動的文字。文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文。"
         textInitialDelay={1.2}
         textIntervalDelay={0.1}
+        direction={DIRECTIONS.RIGHT}
+        reverse
       />
       <div style={{ width: "100px", height: "100px" }}>
         <Role roleName={ROLES.EE} />

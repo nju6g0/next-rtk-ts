@@ -33,7 +33,7 @@ export default function AnimatedText({
     <div
       // ref={containerRef}
       aria-label={text}
-      className={`inline-block ${className}`}
+      className={`text-sm md:text-2xl ${className}`}
     >
       {[...text].map((char, i) => (
         <span

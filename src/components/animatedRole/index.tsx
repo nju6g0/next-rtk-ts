@@ -12,27 +12,27 @@ import RoleGGLightImg from "../../../public/roles/role_gg_light.png";
 import RoleSMImg from "../../../public/roles/role_sm.png";
 import RoleSMLightImg from "../../../public/roles/role_sm_light.png";
 
-const ee = "EE";
-const po = "PO";
-const gg = "GG";
-const sm = "SM";
+const EE = "EE";
+const PO = "PO";
+const GG = "GG";
+const SM = "SM";
 export const ROLES = {
-  [ee]: ee,
-  [po]: po,
-  [gg]: gg,
-  [sm]: sm,
+  [EE]: EE,
+  [PO]: PO,
+  [GG]: GG,
+  [SM]: SM,
 } as const;
 export type RoleNameType = keyof typeof ROLES;
 
 const getRoleImg = (roleName: RoleNameType) => {
   switch (roleName) {
-    case ROLES[ee]:
+    case ROLES[EE]:
       return { role: RoleEEImg, light: RoleEELightImg };
-    case ROLES[gg]:
+    case ROLES[GG]:
       return { role: RoleGGImg, light: RoleGGLightImg };
-    case ROLES[sm]:
+    case ROLES[SM]:
       return { role: RoleSMImg, light: RoleSMLightImg };
-    case ROLES[po]:
+    case ROLES[PO]:
     default:
       return { role: RolePOImg, light: RolePOLightImg };
   }
@@ -44,10 +44,10 @@ interface roleProps {
 }
 
 export default function Role({
-  roleName = ROLES[po],
+  roleName = ROLES[PO],
   withAnimation = true,
 }: roleProps) {
-  console.log(holeImg);
+
   return (
     <div
       className={`${styles.container} ${withAnimation && styles.animated}`}
