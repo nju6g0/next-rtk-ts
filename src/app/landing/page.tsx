@@ -45,7 +45,7 @@ export default function LandingPage() {
   return (
     <>
       <h1>Welcome to the Landing Page</h1>
-      <p>This is the main content of the landing page.</p>
+      <p className="pt-1">This is the main content of the landing page.</p>
       <Button.Primary
         type={BUTTON_TYPES.BUTTON}
         onClick={loadUsers}

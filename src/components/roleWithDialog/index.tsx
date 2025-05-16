@@ -46,12 +46,12 @@ export default function RoleWithDialog({
       className={`flex items-end ${direction === DIRECTIONS[RIGHT] && "flex-row-reverse"}`}
     >
       <div
-        className={`md:w-1/6 w-1/4 shrink-0 ${reverse && "rotate-180"} ${direction === DIRECTIONS[RIGHT] ? "ml-[20px]" : "mr-[20px]"}`}
+        className={`md:w-1/6 w-1/4 shrink-0 ${reverse && "rotate-180"} ${direction === DIRECTIONS[RIGHT] ? "ml-5" : "mr-5"}`}
       >
         <Role roleName={roleName} withAnimation={withAnimation} />
       </div>
       <div
-        className={`relative grow py-[10px] px-[12px] md:pt-[20px] md:pb-[40px] md:pl-[70px] md:pr-[50px] border rounded-2xl ${roleBorderColors[roleName]}`}
+        className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]}`}
       >
         <AnimatedText
           className="font-bold text-dark text-2xl"
@@ -60,7 +60,7 @@ export default function RoleWithDialog({
           intervalDelay={textIntervalDelay}
         />
         <span
-          className={`absolute inline-block font-bold px-[16px] py-[4px] top-[20px] left-[-6px] ${roleBgColors[roleName]}`}
+          className={`absolute inline-block font-bold px-4 py-1 top-5 left-[-6px] ${roleBgColors[roleName]}`}
         >
           {roleName}
         </span>

@@ -1,6 +1,6 @@
 "use client";
 
-// import React, { useRef, useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 
 interface AnimatedTextProps {
@@ -16,35 +16,40 @@ export default function AnimatedText({
   intervalDelay = 0.1,
   className,
 }: AnimatedTextProps) {
-  // const containerRef = useRef<HTMLDivElement>(null);
-  // const [visible, setVisible] = useState(false);
+  const [animationDone, setAnimationDone] = useState(false);
 
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(
-  //     ([entry]) => {
-  //       if (entry.isIntersecting) setVisible(true);
-  //     },
-  //     { threshold: 0.5 }
-  //   );
-  //   if (containerRef.current) observer.observe(containerRef.current);
-  //   return () => observer.disconnect();
-  // }, []);
+  // 所有字動畫結束後，顯示 ▼
+  useEffect(() => {
+    const totalDuration = initialDelay + text.length * intervalDelay;
+    const timeout = setTimeout(() => {
+      setAnimationDone(true);
+    }, totalDuration * 1000);
+
+    return () => clearTimeout(timeout);
+  }, [initialDelay, intervalDelay, text.length]);
+
   return (
     <div
-      // ref={containerRef}
       aria-label={text}
-      className={`text-sm md:text-2xl ${className}`}
+      className={`text-sm md:text-2xl relative py-4 pt-6 pb-10 ${className}`}
     >
-      {[...text].map((char, i) => (
-        <span
-          key={char + i}
-          // className={visible ? styles.animatedLetter : ""}
-          className={styles.animatedLetter}
-          style={{ animationDelay: `${initialDelay + i * intervalDelay}s` }}
-        >
-          {char}
-        </span>
-      ))}
+      <div>
+        {[...text].map((char, i) => (
+          <span
+            key={char + i}
+            className={styles.animatedLetter}
+            style={{ animationDelay: `${initialDelay + i * intervalDelay}s` }}
+          >
+            {char}
+          </span>
+        ))}
+        {/* 右下角彈跳箭頭提示 */}
+        {animationDone && (
+          <div
+            className={`absolute right-2 bottom-0 ${styles.triangle} ${styles.bounceIndicator}`}
+          />
+        )}
+      </div>
     </div>
   );
 }

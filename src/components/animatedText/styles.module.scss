@@ -1,16 +1,40 @@
 .animatedLetter {
   opacity: 0;
   display: inline-block;
-  animation: fadeInUp 0.4s forwards;
+  animation: fadeInUp 0s forwards;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    /* transform: translateX(-10px); */
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    /* transform: translateX(0); */
+    transform: translateY(0);
+  }
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid var(--primary);
+}
+.bounceIndicator {
+  text-align: center;
+  animation: bounce 1s infinite;
+  cursor: pointer;
+  user-select: none;
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
   }
 }
