@@ -7,8 +7,8 @@ import { setUser } from "@/lib/features/user/userSlice";
 import { getUserName } from "@/lib/features/user/userSelectors";
 import { User as UserType } from "@/interfaces";
 import { saveUser, loadUsers, clearUsersData } from "@/utils/storage";
+import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
 
-const USERS = "users";
 const LOAD = "load";
 const NEW = "new";
 const DEFAULT = "default";
@@ -46,33 +46,41 @@ export default function LandingPage() {
     <>
       <h1>Welcome to the Landing Page</h1>
       <p>This is the main content of the landing page.</p>
-      <button type="button" onClick={loadUsers}>
+      <Button.Primary
+        type={BUTTON_TYPES.BUTTON}
+        onClick={loadUsers}
+        size={BUTTON_SIZES.SM}
+      >
         get storage
-      </button>
+      </Button.Primary>
       <br />
-      <button type="button" onClick={clearUsersData}>
+      <Button.Gray
+        type={BUTTON_TYPES.BUTTON}
+        onClick={clearUsersData}
+        size={BUTTON_SIZES.SM}
+      >
         clear storage
-      </button>
-      <div className="border border-primary">
+      </Button.Gray>
+      <div className="border border-primary mt-5">
         {mode === DEFAULT && (
           <>
-            <button
+            <Button.Primary
               type="button"
+              className="mr-2"
               onClick={() => {
                 toggleMode(NEW);
               }}
             >
               new game
-            </button>
-            <br />
-            <button
+            </Button.Primary>
+            <Button.Pink
               type="button"
               onClick={() => {
                 toggleMode(LOAD);
               }}
             >
               load game
-            </button>
+            </Button.Pink>
           </>
         )}
         {mode === NEW && (

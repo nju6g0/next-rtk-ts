@@ -5,7 +5,6 @@ const USERS = "users";
 export const loadUsers = () => {
   try {
     const raw = localStorage.getItem(USERS);
-    console.log(raw);
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
