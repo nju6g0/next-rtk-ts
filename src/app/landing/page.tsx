@@ -61,7 +61,7 @@ export default function LandingPage() {
       >
         clear storage
       </Button.Default>
-      <div className="border border-primary mt-5">
+      <div className="border border-primary mt-5 p-4">
         {mode === DEFAULT && (
           <>
             <Button.Primary
@@ -75,12 +75,22 @@ export default function LandingPage() {
             </Button.Primary>
             <Button.Secondary
               type="button"
+              className="mr-2"
               onClick={() => {
                 toggleMode(LOAD);
               }}
             >
               load game
             </Button.Secondary>
+            <Button
+              type="button"
+              disabled
+              onClick={() => {
+            
+              }}
+            >
+              load game
+            </Button>
           </>
         )}
         {mode === NEW && (

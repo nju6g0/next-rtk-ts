@@ -55,12 +55,11 @@ function BaseButton({
 
   // 定義不同樣式的 class
   const variantClasses = {
-    [BUTTON_VARIANTS.PRIMARY]:
-      "border-blue-400 text-blue-300 hover:bg-blue-200 hover:text-white",
     [BUTTON_VARIANTS.DEFAULT]:
-      "border-gray-400 text-gray-300 hover:bg-gray-200 hover:text-white",
+      "border-gray-400 text-gray-300 shadow-[0_5px_0px_rgb(0,0,0)] hover:bg-gray-200 hover:text-white",
+    [BUTTON_VARIANTS.PRIMARY]: "text-white hover:shadow-[var(--buttonShadow)] bg-linear-[var(--linearButton)]",
     [BUTTON_VARIANTS.SECONDARY]:
-      "border-rose-300 text-pink-200 hover:bg-pink-200 hover:text-white",
+      "border border-primary text-primary hover:shadow-[var(--buttonShadow)]",
   };
 
   const handleclick = () => {
@@ -72,13 +71,14 @@ function BaseButton({
     <button
       type={type}
       className={`
-          border 
+          box-border
           font-bold 
           cursor-pointer 
-          disabled:bg-gray-200
-          disabled:text-gray-300
+          disabled:bg-linear-[none]
+          disabled:bg-gray-400
           disabled:border-gray-200
           disabled:cursor-not-allowed
+          disabled:shadow-[none]
           ${sizeClasses[size]} 
           ${variantClasses[variant]} 
           ${className}
