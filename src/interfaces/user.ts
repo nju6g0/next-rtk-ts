@@ -5,4 +5,5 @@ export interface User {
 
 export interface UserState extends User {
   loading: false;
+  stage: string;
 }

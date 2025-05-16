@@ -13,9 +13,9 @@ export const BUTTON_SIZES = {
 } as const;
 
 export const BUTTON_VARIANTS = {
+  DEFAULT: "default",
   PRIMARY: "primary",
-  GRAY: "gray",
-  PINK: "pink",
+  SECONDARY: "secondary",
 } as const;
 
 // 導出型別（從物件值中擷取 union 類型）
@@ -57,9 +57,9 @@ function BaseButton({
   const variantClasses = {
     [BUTTON_VARIANTS.PRIMARY]:
       "border-blue-400 text-blue-300 hover:bg-blue-200 hover:text-white",
-    [BUTTON_VARIANTS.GRAY]:
+    [BUTTON_VARIANTS.DEFAULT]:
       "border-gray-400 text-gray-300 hover:bg-gray-200 hover:text-white",
-    [BUTTON_VARIANTS.PINK]:
+    [BUTTON_VARIANTS.SECONDARY]:
       "border-rose-300 text-pink-200 hover:bg-pink-200 hover:text-white",
   };
 
@@ -119,14 +119,14 @@ function BaseButton({
 const Button = ({ children, onClick, ...props }: ButtonProps) => (
   <BaseButton children={children} onClick={onClick} {...props} />
 );
+Button.Default = (props: ButtonProps) => (
+  <BaseButton {...props} variant={BUTTON_VARIANTS.DEFAULT} />
+);
 Button.Primary = (props: ButtonProps) => (
   <BaseButton {...props} variant={BUTTON_VARIANTS.PRIMARY} />
 );
-Button.Gray = (props: ButtonProps) => (
-  <BaseButton {...props} variant={BUTTON_VARIANTS.GRAY} />
-);
-Button.Pink = (props: ButtonProps) => (
-  <BaseButton {...props} variant={BUTTON_VARIANTS.PINK} />
+Button.Secondary = (props: ButtonProps) => (
+  <BaseButton {...props} variant={BUTTON_VARIANTS.SECONDARY} />
 );
 
 export default Button;

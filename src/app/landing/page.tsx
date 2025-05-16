@@ -54,13 +54,13 @@ export default function LandingPage() {
         get storage
       </Button.Primary>
       <br />
-      <Button.Gray
+      <Button.Default
         type={BUTTON_TYPES.BUTTON}
         onClick={clearUsersData}
         size={BUTTON_SIZES.SM}
       >
         clear storage
-      </Button.Gray>
+      </Button.Default>
       <div className="border border-primary mt-5">
         {mode === DEFAULT && (
           <>
@@ -73,14 +73,14 @@ export default function LandingPage() {
             >
               new game
             </Button.Primary>
-            <Button.Pink
+            <Button.Secondary
               type="button"
               onClick={() => {
                 toggleMode(LOAD);
               }}
             >
               load game
-            </Button.Pink>
+            </Button.Secondary>
           </>
         )}
         {mode === NEW && (

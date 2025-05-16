@@ -5,15 +5,23 @@ const initialState: UserState = {
   userName: "",
   score: 0,
   loading: false,
+  stage: "",
 };
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     setUser: (state, action) => {
-      const { userName, score } = action.payload;
-      state.userName = userName;
-      state.score = score;
+      const { userName, score, stage } = action.payload;
+      if (userName) {
+        state.userName = userName;
+      }
+      if (stage) {
+        state.stage = stage;
+      }
+      if (score) {
+        state.score = score;
+      }
     },
     restartGame: (state, action) => {
       state.score = 10;
