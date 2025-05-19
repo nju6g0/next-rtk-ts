@@ -8,6 +8,7 @@ import { getUserName } from "@/lib/features/user/userSelectors";
 import { User as UserType } from "@/interfaces";
 import { saveUser, loadUsers, clearUsersData } from "@/utils/storage";
 import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
+import DnDSortableDropZoneExample from "@/components/dragAndDrop";
 
 const LOAD = "load";
 const NEW = "new";
@@ -46,6 +47,7 @@ export default function LandingPage() {
     <>
       <h1>Welcome to the Landing Page</h1>
       <p className="pt-1">This is the main content of the landing page.</p>
+      <DnDSortableDropZoneExample />
       <Button.Primary
         type={BUTTON_TYPES.BUTTON}
         onClick={loadUsers}
@@ -82,14 +84,8 @@ export default function LandingPage() {
             >
               load game
             </Button.Secondary>
-            <Button
-              type="button"
-              disabled
-              onClick={() => {
-            
-              }}
-            >
-              load game
+            <Button type="button" disabled onClick={() => {}}>
+              Disabled
             </Button>
           </>
         )}
