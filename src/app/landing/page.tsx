@@ -48,7 +48,7 @@ export default function LandingPage() {
       <h1>Welcome to the Landing Page</h1>
       <p className="pt-1">This is the main content of the landing page.</p>
       <DnDSortableDropZoneExample />
-      <Button.Primary
+      {/* <Button.Primary
         type={BUTTON_TYPES.BUTTON}
         onClick={loadUsers}
         size={BUTTON_SIZES.SM}
@@ -141,7 +141,7 @@ export default function LandingPage() {
             </ul>
           </>
         )}
-      </div>
+      </div> */}
     </>
   );
 }

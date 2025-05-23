@@ -1,9 +1,10 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 
-export function Draggable(props: any) {
+export function Draggable(props) {
+  const { className, id } = props;
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: props.id,
+    id,
   });
   const style = transform
     ? {
@@ -12,7 +13,13 @@ export function Draggable(props: any) {
     : undefined;
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <button
+      ref={setNodeRef}
+      className={className}
+      style={style}
+      {...listeners}
+      {...attributes}
+    >
       {props.children}
     </button>
   );
