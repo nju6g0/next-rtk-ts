@@ -8,11 +8,21 @@ import { getUserName } from "@/lib/features/user/userSelectors";
 import { User as UserType } from "@/interfaces";
 import { saveUser, loadUsers, clearUsersData } from "@/utils/storage";
 import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
-import DnDSortableDropZoneExample from "@/components/dragAndDrop";
+import DragAndDrop, { Droppable, Draggable } from "@/components/dragAndDrop";
 
 const LOAD = "load";
 const NEW = "new";
 const DEFAULT = "default";
+const dragItems = ["甲", "乙", "丙"];
+const LEFT_AREA = "leftArea";
+const RIGHT_AREA = "rightArea";
+
+const DraggableMarkup = ({ id }: { id: string }) => (
+  <Draggable id={id} className="p-2 border border-primary">
+    Drag me {id}
+  </Draggable>
+);
+
 export default function LandingPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -21,6 +31,10 @@ export default function LandingPage() {
   const [userName, setUserName] = useState("");
   const [loadData, setLoadData] = useState<UserType[]>([]);
   const user = useAppSelector(getUserName);
+
+  // about drag and drop
+  const [leftItems, setLeftItems] = useState<string[]>(dragItems);
+  const [rightItems, setRightItems] = useState<string[]>([]);
 
   const handleChange = (e: any) => {
     setUserName(e.target.value);
@@ -42,12 +56,51 @@ export default function LandingPage() {
 
     setMode(mode);
   };
+  const handleDragEnd = (event: any) => {
+    const { over, active } = event;
+
+    if (over.id === RIGHT_AREA) {
+      setLeftItems((prev) => prev.filter((item) => item !== active.id));
+      setRightItems((prev) => {
+        const newItems = new Set([...prev, active.id]);
+        return Array.from(newItems);
+      });
+      return;
+    }
+    if (over.id === LEFT_AREA) {
+      setRightItems((prev) => prev.filter((item) => item !== active.id));
+      setLeftItems((prev) => {
+        const newItems = new Set([...prev, active.id]);
+        return Array.from(newItems);
+      });
+      return;
+    }
+  };
 
   return (
     <>
       <h1>Welcome to the Landing Page</h1>
       <p className="pt-1">This is the main content of the landing page.</p>
-      <DnDSortableDropZoneExample />
+      <DragAndDrop onDragEnd={handleDragEnd}>
+        <div className="flex">
+          <Droppable
+            id={LEFT_AREA}
+            className="flex flex-col mr-2 border border-primary h-[500px] w-[200px]"
+          >
+            {leftItems.map((id) => (
+              <DraggableMarkup key={id} id={id} />
+            ))}
+          </Droppable>
+          <Droppable
+            id={RIGHT_AREA}
+            className="flex flex-col border border-role-ee h-[500px] w-[200px]"
+          >
+            {rightItems.map((id) => (
+              <DraggableMarkup key={id} id={id} />
+            ))}
+          </Droppable>
+        </div>
+      </DragAndDrop>
       {/* <Button.Primary
         type={BUTTON_TYPES.BUTTON}
         onClick={loadUsers}
