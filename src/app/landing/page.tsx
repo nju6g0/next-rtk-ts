@@ -57,6 +57,7 @@ export default function LandingPage() {
     setMode(mode);
   };
   const handleDragEnd = (event: any) => {
+    console.log("event", event);
     const { over, active } = event;
 
     if (over.id === RIGHT_AREA) {

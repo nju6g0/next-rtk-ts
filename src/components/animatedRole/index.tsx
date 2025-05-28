@@ -22,7 +22,8 @@ export const ROLES = {
   [GG]: GG,
   [SM]: SM,
 } as const;
-export type RoleNameType = keyof typeof ROLES;
+
+export type RoleNameType = keyof typeof ROLES; // "EE" | "PO" | "GG" | "SM"
 
 const getRoleImg = (roleName: RoleNameType) => {
   switch (roleName) {
@@ -41,13 +42,14 @@ const getRoleImg = (roleName: RoleNameType) => {
 interface roleProps {
   roleName?: RoleNameType;
   withAnimation?: boolean;
+  initialDelay?: number;
 }
 
 export default function Role({
   roleName = ROLES[PO],
   withAnimation = true,
+  initialDelay = 0,
 }: roleProps) {
-
   return (
     <div
       className={`${styles.container} ${withAnimation && styles.animated}`}
@@ -57,6 +59,7 @@ export default function Role({
         src={getRoleImg(roleName).light.src}
         alt="role_light"
         className={`${styles.roleLight} ${withAnimation && styles.animated}`}
+        style={{ animationDelay: `${initialDelay + 0.4}s` }}
         width={getRoleImg(roleName).light.width}
         height={getRoleImg(roleName).light.height}
       />
@@ -64,6 +67,7 @@ export default function Role({
         src={getRoleImg(roleName).role}
         alt="role"
         className={`${styles.role} ${withAnimation && styles.animated}`}
+        style={{ animationDelay: `${initialDelay + 0.8}s` }}
         width={getRoleImg(roleName).role.width}
         height={getRoleImg(roleName).role.height}
       />
