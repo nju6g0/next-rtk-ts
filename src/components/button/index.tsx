@@ -77,6 +77,8 @@ function BaseButton({
           box-border
           font-bold 
           cursor-pointer 
+          transition-all 
+          duration-200
           disabled:bg-linear-[none]
           disabled:bg-gray-400
           disabled:border-gray-200

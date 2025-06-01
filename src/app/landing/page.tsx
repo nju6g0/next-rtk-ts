@@ -8,20 +8,14 @@ import { getUserName } from "@/lib/features/user/userSelectors";
 import { User as UserType } from "@/interfaces";
 import { saveUser, loadUsers, clearUsersData } from "@/utils/storage";
 import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
-import DragAndDrop, { Droppable, Draggable } from "@/components/dragAndDrop";
+import leafBgTop from "../../../public/homepage/bg_leafDark_4_t.png";
+import leafBgRight from "../../../public/homepage/bg_leafDark_3_r.png";
+import leafBgBottom from "../../../public/homepage/bg_leafDark_2_b.png";
+import leafBgLeft from "../../../public/homepage/bg_leafDark_1_l.png";
 
 const LOAD = "load";
 const NEW = "new";
 const DEFAULT = "default";
-const dragItems = ["甲", "乙", "丙"];
-const LEFT_AREA = "leftArea";
-const RIGHT_AREA = "rightArea";
-
-const DraggableMarkup = ({ id }: { id: string }) => (
-  <Draggable id={id} className="p-2 border border-primary">
-    Drag me {id}
-  </Draggable>
-);
 
 export default function LandingPage() {
   const router = useRouter();
@@ -32,10 +26,6 @@ export default function LandingPage() {
   const [loadData, setLoadData] = useState<UserType[]>([]);
   const user = useAppSelector(getUserName);
 
-  // about drag and drop
-  const [leftItems, setLeftItems] = useState<string[]>(dragItems);
-  const [rightItems, setRightItems] = useState<string[]>([]);
-
   const handleChange = (e: any) => {
     setUserName(e.target.value);
   };
@@ -45,7 +35,7 @@ export default function LandingPage() {
     }
 
     dispatch(setUser(user));
-    router.replace("/intro");
+    router.push("/intro");
   };
 
   const toggleMode = (mode: string) => {
@@ -56,52 +46,18 @@ export default function LandingPage() {
 
     setMode(mode);
   };
-  const handleDragEnd = (event: any) => {
-    console.log("event", event);
-    const { over, active } = event;
-
-    if (over.id === RIGHT_AREA) {
-      setLeftItems((prev) => prev.filter((item) => item !== active.id));
-      setRightItems((prev) => {
-        const newItems = new Set([...prev, active.id]);
-        return Array.from(newItems);
-      });
-      return;
-    }
-    if (over.id === LEFT_AREA) {
-      setRightItems((prev) => prev.filter((item) => item !== active.id));
-      setLeftItems((prev) => {
-        const newItems = new Set([...prev, active.id]);
-        return Array.from(newItems);
-      });
-      return;
-    }
-  };
 
   return (
-    <>
+    <div
+      className="flex-1 relative bg-no-repeat"
+      style={{
+        backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
+        backgroundPosition: "top, top right, bottom, top left",
+      }}
+    >
       <h1>Welcome to the Landing Page</h1>
       <p className="pt-1">This is the main content of the landing page.</p>
-      <DragAndDrop onDragEnd={handleDragEnd}>
-        <div className="flex">
-          <Droppable
-            id={LEFT_AREA}
-            className="flex flex-col mr-2 border border-primary h-[500px] w-[200px]"
-          >
-            {leftItems.map((id) => (
-              <DraggableMarkup key={id} id={id} />
-            ))}
-          </Droppable>
-          <Droppable
-            id={RIGHT_AREA}
-            className="flex flex-col border border-role-ee h-[500px] w-[200px]"
-          >
-            {rightItems.map((id) => (
-              <DraggableMarkup key={id} id={id} />
-            ))}
-          </Droppable>
-        </div>
-      </DragAndDrop>
+
       <Button.Primary
         type={BUTTON_TYPES.BUTTON}
         onClick={loadUsers}
@@ -196,6 +152,6 @@ export default function LandingPage() {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }

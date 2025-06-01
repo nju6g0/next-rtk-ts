@@ -18,7 +18,7 @@ import Logo from "../../public/homepage/logo_hole_txt.png";
 
 function Launch({ progress }: { progress: number }) {
   return (
-    <>
+    <div className="flex-1 flex flex-col items-center justify-center">
       <div className="mt-8 flex gap-2">
         <div className="w-[30px] h-[30px]">
           <Role roleName={ROLES.EE} />
@@ -39,10 +39,10 @@ function Launch({ progress }: { progress: number }) {
           style={{ width: `${progress}%`, transition: "0.5s" }}
         />
       </div>
-    </>
+    </div>
   );
 }
-function Intro() {
+function Entry() {
   const router = useRouter();
   const [isMoved, setIsMoved] = useState(false);
   const handleClick = () => {
@@ -54,7 +54,7 @@ function Intro() {
 
   return (
     <div
-      className="relative w-full h-full bg-no-repeat"
+      className="relative flex-1 w-full h-full bg-no-repeat"
       style={{
         backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
         backgroundPosition: "top, top right, bottom, top left",
@@ -114,8 +114,6 @@ function Intro() {
           </div>
         </div>
       </div>
-
-      {/* <Link href="/landing">Landing Page</Link> */}
     </div>
   );
 }
@@ -148,9 +146,5 @@ export default function HomeClient({ data }: { data: any }) {
     return () => clearTimeout(timeout);
   }, [progress]);
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      {isLaunching ? <Launch progress={progress} /> : <Intro />}
-    </div>
-  );
+  return isLaunching ? <Launch progress={progress} /> : <Entry />;
 }
