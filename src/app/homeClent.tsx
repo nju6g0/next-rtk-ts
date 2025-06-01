@@ -1,8 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import Role, { ROLES } from "@/components/animatedRole";
+import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
+import leafBgTop from "../../public/homepage/bg_leafDark_4_t.png";
+import leafBgRight from "../../public/homepage/bg_leafDark_3_r.png";
+import leafBgBottom from "../../public/homepage/bg_leafDark_2_b.png";
+import leafBgLeft from "../../public/homepage/bg_leafDark_1_l.png";
+import leafTop from "../../public/homepage/bg_leafTint_3_t.png";
+import leafRight from "../../public/homepage/bg_leafTint_4_rb.png";
+import leafBottom from "../../public/homepage/bg_leafTint_2_lb.png";
+import leafLeft from "../../public/homepage/bg_leafTint_1_lt.png";
+import Logo from "../../public/homepage/logo_hole_txt.png";
 
 function Launch({ progress }: { progress: number }) {
   return (
@@ -31,12 +43,80 @@ function Launch({ progress }: { progress: number }) {
   );
 }
 function Intro() {
+  const router = useRouter();
+  const [isMoved, setIsMoved] = useState(false);
+  const handleClick = () => {
+    setIsMoved(true);
+    setTimeout(() => {
+      router.push("/landing");
+    }, 300);
+  };
+
   return (
-    <>
-      <h1>Welcome to the home Page</h1>
-      <p>This is the main content of the home page.</p>
-      <Link href="/landing">Landing Page</Link>
-    </>
+    <div
+      className="relative w-full h-full bg-no-repeat"
+      style={{
+        backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
+        backgroundPosition: "top, top right, bottom, top left",
+      }}
+    >
+      <div
+        className={`absolute left-[30%] w-[50%] h-[50%] transition-all duration-400 ${
+          isMoved ? "-top-[20%]" : "top-0"
+        }`}
+      >
+        <Image src={leafTop} alt="" fill />
+      </div>
+      <div
+        className={`absolute bottom-0 w-[50%] h-[80%] transition-all duration-500 ${
+          isMoved ? "-right-[20%]" : "right-0"
+        }`}
+      >
+        <Image src={leafRight} alt="" fill />
+      </div>
+      <div
+        className={`absolute top-0 w-[30%] h-[70%] transition-all duration-300 ${
+          isMoved ? "-left-[10%]" : "left-0"
+        }`}
+      >
+        <Image src={leafLeft} alt="" fill />
+      </div>
+      <div
+        className={`absolute left-0 w-[60%] h-[40%] transition-all duration-500 ${
+          isMoved ? "-bottom-[20%]" : "bottom-0"
+        }`}
+      >
+        <Image src={leafBottom} alt="" fill />
+      </div>
+      <div
+        className="absolute bg-cover top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+        style={{
+          backgroundImage: `url(${Logo.src})`,
+          width: Logo.width,
+          height: Logo.height,
+        }}
+      >
+        <div className="relative h-full">
+          <h3
+            className="absolute bottom-[30%] left-[50%] translate-x-[-50%] text-3xl font-bold text-center"
+            style={{ bottom: ` ${Logo.height / 4}px` }}
+          >
+            深入敏捷の村一探究竟
+          </h3>
+          <div className="absolute bottom-[15%] left-[50%] translate-x-[-50%]">
+            <Button.Primary
+              type={BUTTON_TYPES.BUTTON}
+              onClick={handleClick}
+              size={BUTTON_SIZES.XL}
+            >
+              進入村莊
+            </Button.Primary>
+          </div>
+        </div>
+      </div>
+
+      {/* <Link href="/landing">Landing Page</Link> */}
+    </div>
   );
 }
 

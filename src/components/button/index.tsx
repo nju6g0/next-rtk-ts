@@ -7,6 +7,7 @@ export const BUTTON_TYPES = {
 } as const;
 
 export const BUTTON_SIZES = {
+  XL: "xl",
   LG: "lg",
   MD: "md",
   SM: "sm",
@@ -48,6 +49,7 @@ function BaseButton({
 
   // 定義不同尺寸的 class
   const sizeClasses = {
+    [BUTTON_SIZES.XL]: "px-10 py-4 text-2xl rounded-[32px]",
     [BUTTON_SIZES.LG]: "px-6 py-3 text-lg rounded-[26px]",
     [BUTTON_SIZES.MD]: "px-4 py-2 text-md rounded-[20px]",
     [BUTTON_SIZES.SM]: "px-2 py-1 text-sm rounded-[14px]",
@@ -57,7 +59,8 @@ function BaseButton({
   const variantClasses = {
     [BUTTON_VARIANTS.DEFAULT]:
       "border-gray-400 text-gray-300 shadow-[0_5px_0px_rgb(0,0,0)] hover:bg-gray-200 hover:text-white",
-    [BUTTON_VARIANTS.PRIMARY]: "text-white hover:shadow-[var(--buttonShadow)] bg-linear-[var(--linearButton)]",
+    [BUTTON_VARIANTS.PRIMARY]:
+      "text-white hover:shadow-[var(--buttonShadow)] bg-linear-[var(--linearButton)]",
     [BUTTON_VARIANTS.SECONDARY]:
       "border border-primary text-primary hover:shadow-[var(--buttonShadow)]",
   };
