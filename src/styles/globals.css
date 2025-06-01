@@ -67,6 +67,9 @@
   --color-role-ee: var(--roleEE);
   --color-role-gg: var(--roleGG);
   --color-role-brown: var(--roleBrown);
+  --linear-primary: var(--linearPrimary);
+  --cover-dark: var(--coverGray);
+  --cover-light: var(--coverLight);
 }
 
 @theme inline {

@@ -52,11 +52,11 @@ export default function LandingPage() {
       className="flex-1 relative bg-no-repeat"
       style={{
         backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
-        backgroundPosition: "top, top right, bottom, top left",
+        backgroundPosition: "top, bottom right, bottom, top left",
+        backgroundSize: "auto, 40vw 100vh , auto, 40vw 100vh",
       }}
     >
-      <h1>Welcome to the Landing Page</h1>
-      <p className="pt-1">This is the main content of the landing page.</p>
+      <div className="absolute top-0 left-0 w-full h-full bg-(--cover-dark)"></div>
 
       <Button.Primary
         type={BUTTON_TYPES.BUTTON}
