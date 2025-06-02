@@ -24,10 +24,10 @@ export default function ProgressBarLayout({
 
   // if (!userName) return <div>loading...</div>;
   return (
-    <main className="w-[1280px] max-w-[100vw] mx-auto">
+    <div className="flex-1 w-[1280px] max-w-[100vw] mx-auto py-4 border border-primary">
       <ProgressBar />
       <ScoreBoard />
       {children}
-    </main>
+    </div>
   );
 }

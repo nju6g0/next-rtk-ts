@@ -30,6 +30,7 @@ interface roleWithDialogProps {
   textIntervalDelay?: number;
   direction?: DirectionType;
   reverse?: boolean;
+  onAnimationDone?: () => void;
 }
 
 export default function RoleWithDialog({
@@ -40,6 +41,7 @@ export default function RoleWithDialog({
   textIntervalDelay,
   direction,
   reverse = false,
+  onAnimationDone,
 }: roleWithDialogProps) {
   return (
     <div
@@ -51,16 +53,17 @@ export default function RoleWithDialog({
         <Role roleName={roleName} withAnimation={withAnimation} />
       </div>
       <div
-        className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]}`}
+        className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]} shadow-(--shadow-primary) bg-(--cover-dark)`}
       >
         <AnimatedText
-          className="font-bold text-dark text-2xl"
+          className="text-2xl"
           text={text}
           initialDelay={textInitialDelay}
           intervalDelay={textIntervalDelay}
+          onAnimationDone={onAnimationDone}
         />
         <span
-          className={`absolute inline-block font-bold px-4 py-1 top-5 left-[-6px] ${roleBgColors[roleName]}`}
+          className={`absolute inline-block text-dark font-bold px-4 py-1 top-5 left-[-6px] ${roleBgColors[roleName]}`}
         >
           {roleName}
         </span>

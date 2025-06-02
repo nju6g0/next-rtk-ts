@@ -9,7 +9,8 @@ async function fetchData() {
   // return res.json();
   return {
     title: "LANDING PAGE",
-    content: "This is a sample landing page content.",
+    content:
+      "唷呼，歡迎進入「SCRUM 新手村」，在正式加入專案開發之前，需要請你先了解 Scrum 的流程與精神！請接受挑戰任務，成功通過 Scrum 新手村的挑戰任務吧~",
     describe: "This is a sample landing page description.",
   };
 }

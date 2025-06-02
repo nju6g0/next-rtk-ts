@@ -47,57 +47,17 @@ export default function IntroPage() {
 
   return (
     <>
-      <h3>This is Intro Page!!</h3>
-      <DragAndDropSample />
-      <DragAndDrop onDragEnd={handleDragEnd}>
-        <div className="flex">
-          <Droppable
-            id={LEFT_AREA}
-            className="flex flex-col mr-2 border border-primary h-[500px] w-[200px]"
-          >
-            {leftItems.map((id) => (
-              <DraggableMarkup key={id} id={id} />
-            ))}
-          </Droppable>
-          <Droppable
-            id={RIGHT_AREA}
-            className="flex flex-col border border-role-ee h-[500px] w-[200px]"
-          >
-            {rightItems.map((id) => (
-              <DraggableMarkup key={id} id={id} />
-            ))}
-          </Droppable>
-        </div>
-      </DragAndDrop>
-      <button
-        onClick={() => {
-          setIsVisible(!isVisible);
-        }}
-      >
-        click me
-      </button>
-      {isVisible && (
-        <AnimatedText
-          className="font-bold text-dark"
-          text="你好，這是一段會動的文字。文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字"
-          initialDelay={1.2}
-          intervalDelay={0.1}
-        />
-      )}
-      {/* <RoleWithDialog
-        roleName={ROLES.EE}
-        text="你好，這是一段會動的文字。文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字。"
+      <RoleWithDialog
+        roleName={ROLES.PO}
+        text="\ 碰 / 我是短衝小精靈，開發 A 組的 PO。PO 也就是產品負責人（Product Owner），產品負責人會負責評估產品待辦清單的價值與重要性，依序排列要執行的優先順序 ， 對齊產品目標 。 最後排出產品待辦清單 （Product Backlog） 唷 ！"
         textInitialDelay={1.2}
         textIntervalDelay={0.1}
-        direction={DIRECTIONS.RIGHT}
+        direction={DIRECTIONS.LEFT}
         reverse
+        onAnimationDone={() => {
+          alert("animated done");
+        }}
       />
-      <div style={{ width: "100px", height: "100px" }}>
-        <Role roleName={ROLES.EE} />
-      </div>
-      <div style={{ width: "100px", height: "100px" }}>
-        <Role withAnimation={false} />
-      </div> */}
     </>
   );
 }

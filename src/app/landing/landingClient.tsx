@@ -104,7 +104,7 @@ function LoadGame({
               onClick={() => {
                 onSubmit(item);
               }}
-              className="cursor-pointer border border-primary hover:bg-primary hover:text-dark py-2 px-5 rounded-3xl transition-colors"
+              className="mt-2 cursor-pointer border border-primary hover:bg-primary hover:text-dark py-2 px-5 rounded-3xl transition-colors"
             >
               {item.userName}/ {item.score}
             </li>
@@ -148,42 +148,32 @@ export default function LandingPage({ data }: { data: any }) {
   return (
     <div
       className="flex-1 relative bg-no-repeat flex flex-col items-center justify-center"
-      // style={{
-      //   backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
-      //   backgroundPosition: "top, bottom right, bottom, top left",
-      //   backgroundSize: "auto, 40vw 100vh , auto, 40vw 100vh",
-      // }}
+      style={{
+        backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
+        backgroundPosition: "top, bottom right, bottom, top left",
+        backgroundSize: "auto, 40vw 100vh , auto, 40vw 100vh",
+      }}
     >
-      {/* <div className="absolute top-0 left-0 w-full h-full bg-(--cover-dark)" /> */}
-
-      {/* <Button.Primary
-        type={BUTTON_TYPES.BUTTON}
-        onClick={loadUsers}
-        size={BUTTON_SIZES.SM}
-      >
-        get storage
-      </Button.Primary>
-      <br />
-      <Button.Default
+      <div className="absolute top-0 left-0 w-full h-full bg-(--cover-dark)" />
+      {/* 
+      <Button.Secondary
+        className="absolute top-[100px]"
         type={BUTTON_TYPES.BUTTON}
         onClick={clearUsersData}
         size={BUTTON_SIZES.SM}
       >
         clear storage
-      </Button.Default> 
-                  <Button type="button" disabled onClick={() => {}}>
-              Disabled
-            </Button>
-      */}
-      <div className="relative border border-primary rounded-3xl w-xl p-5 pl-12 pt-16 ring-2 ring-primary shadow-(--shadow-primary)">
+      </Button.Secondary>*/}
+
+      <div className="relative border border-primary rounded-3xl w-xl p-5 pl-12 pt-20 ring-2 ring-primary shadow-(--shadow-primary)">
         {mode === INTRO && (
           <Intro content={data.content} onClick={toggleMode} />
         )}
         {mode === NEW && <NewGame onSubmit={handleSubmit} />}
         {mode === LOAD && <LoadGame onSubmit={handleSubmit} list={loadData} />}
-        <div className="absolute top-3 left-[-12px] border border-primary p-2 bg-primary text-dark font-bold shadow-(--shadow-primary)">
+        <div className="absolute top-3 left-[-12px] border border-primary py-2 px-5 bg-primary text-dark font-bold shadow-(--shadow-primary)">
           {mode === INTRO ? (
-            "謎之音"
+            "(謎之音) "
           ) : (
             <button
               type="button"

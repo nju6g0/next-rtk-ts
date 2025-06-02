@@ -8,6 +8,7 @@ interface AnimatedTextProps {
   initialDelay?: number; // 初始延遲（秒）
   intervalDelay?: number; // 每個字之間的延遲（秒）
   className?: string;
+  onAnimationDone?: () => void;
 }
 
 export default function AnimatedText({
@@ -15,6 +16,7 @@ export default function AnimatedText({
   initialDelay = 0,
   intervalDelay = 0.1,
   className,
+  onAnimationDone,
 }: AnimatedTextProps) {
   const [animationDone, setAnimationDone] = useState(false);
 
@@ -23,6 +25,7 @@ export default function AnimatedText({
     const totalDuration = initialDelay + text.length * intervalDelay;
     const timeout = setTimeout(() => {
       setAnimationDone(true);
+      onAnimationDone();
     }, totalDuration * 1000);
 
     return () => clearTimeout(timeout);
