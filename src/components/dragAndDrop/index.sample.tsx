@@ -6,12 +6,14 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import { SortableContext } from "@dnd-kit/sortable";
 
 import { Droppable } from "./Droppable";
 import { Draggable } from "./Draggable";
+import { SortableItem } from "./Sortable";
 
 // const containers = ["A", "B", "C"];
-const dragItems = ["甲", "乙", "丙"];
+const dragItems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
 export default function DragAndDrop() {
   // const [parent, setParent] = useState(null);
   const [leftItems, setLeftItems] = useState<string[]>(dragItems);
@@ -19,7 +21,7 @@ export default function DragAndDrop() {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
   const DraggableMarkup = ({ id }: { id: string }) => (
-    <Draggable id={id} className="p-2 border border-primary">
+    <Draggable id={id} className="p-2 border border-primary w-full">
       Drag me {id}
     </Draggable>
   );
@@ -51,9 +53,13 @@ export default function DragAndDrop() {
           id="rightArea"
           className="flex flex-col border border-role-ee h-[500px] w-[200px]"
         >
-          {rightItems.map((id) => (
-            <DraggableMarkup key={id} id={id} />
-          ))}
+          <SortableContext items={rightItems}>
+            {rightItems.map((id) => (
+              <SortableItem key={id} id={id}>
+                <DraggableMarkup key={id} id={id} />
+              </SortableItem>
+            ))}
+          </SortableContext>
         </Droppable>
       </div>
     </DndContext>
@@ -77,6 +83,19 @@ export default function DragAndDrop() {
         const newItems = new Set([...prev, active.id]);
         return Array.from(newItems);
       });
+      return;
+    }
+    if (rightItems.includes(active.id) && rightItems.includes(over.id)) {
+      const targetIndex = rightItems.indexOf(over.id);
+      const target = rightItems.find((item) => item === active.id)!;
+      const rest = rightItems.filter((item) => item !== active.id);
+      const result = [
+        ...rest.slice(0, targetIndex),
+        target,
+        ...rest.slice(targetIndex),
+      ];
+      console.log("result", result);
+      setRightItems(result);
       return;
     }
 

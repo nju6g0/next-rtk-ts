@@ -22,3 +22,4 @@ export default function DragAndDrop({ children, onDragEnd }: DragAndDropProps) {
 
 export { Droppable } from "./Droppable";
 export { Draggable } from "./Draggable";
+export { SortableItem } from "./Sortable";

@@ -5,6 +5,7 @@ import AnimatedText from "@/components/animatedText";
 import Role, { ROLES } from "@/components/animatedRole";
 import RoleWithDialog, { DIRECTIONS } from "@/components/roleWithDialog";
 import DragAndDrop, { Droppable, Draggable } from "@/components/dragAndDrop";
+import DragAndDropSample from "@/components/dragAndDrop/index.sample";
 
 const dragItems = ["甲", "乙", "丙"];
 const LEFT_AREA = "leftArea";
@@ -47,6 +48,7 @@ export default function IntroPage() {
   return (
     <>
       <h3>This is Intro Page!!</h3>
+      <DragAndDropSample />
       <DragAndDrop onDragEnd={handleDragEnd}>
         <div className="flex">
           <Droppable
