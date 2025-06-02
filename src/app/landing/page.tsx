@@ -1,157 +1,48 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { describe } from "node:test";
+import Landingclient from "./landingClient";
 
-import { setUser } from "@/lib/features/user/userSlice";
-import { getUserName } from "@/lib/features/user/userSelectors";
-import { User as UserType } from "@/interfaces";
-import { saveUser, loadUsers, clearUsersData } from "@/utils/storage";
-import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
-import leafBgTop from "../../../public/homepage/bg_leafDark_4_t.png";
-import leafBgRight from "../../../public/homepage/bg_leafDark_3_r.png";
-import leafBgBottom from "../../../public/homepage/bg_leafDark_2_b.png";
-import leafBgLeft from "../../../public/homepage/bg_leafDark_1_l.png";
-
-const LOAD = "load";
-const NEW = "new";
-const DEFAULT = "default";
-
-export default function LandingPage() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const [mode, setMode] = useState<string>(DEFAULT);
-  const [userName, setUserName] = useState("");
-  const [loadData, setLoadData] = useState<UserType[]>([]);
-  const user = useAppSelector(getUserName);
-
-  const handleChange = (e: any) => {
-    setUserName(e.target.value);
+const API_URL = "https://jsonplaceholder.typicode.com/posts";
+async function fetchData() {
+  const res = await fetch(API_URL, {
+    next: { revalidate: 10 },
+  });
+  // return res.json();
+  return {
+    title: "LANDING PAGE",
+    content: "This is a sample landing page content.",
+    describe: "This is a sample landing page description.",
   };
-  const handleSubmit = async (user: UserType) => {
-    if (mode === NEW) {
-      saveUser(user);
-    }
-
-    dispatch(setUser(user));
-    router.push("/intro");
+}
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  // const post = await getPost(params.slug)
+  const data = await fetchData();
+  return {
+    title: data.title,
+    description: data.describe,
+    keywords: "landing, page, example",
+    // authors: [{ name: "Nicole Su", url: "https://example.com" }],
+    // openGraph: {
+    //   title: data.title,
+    //   description: data.describe,
+    //   url: `https://example.com/landing/${params.slug}`,
+    //   images: [
+    //     {
+    //       url: "https://example.com/og-image.png",
+    //       width: 1200,
+    //       height: 630,
+    //       alt: "Open Graph Image",
+    //     },
+    //   ],
+    //   siteName: "Landing Page",
+    // },
   };
+}
 
-  const toggleMode = (mode: string) => {
-    if (mode === LOAD) {
-      const users = loadUsers();
-      setLoadData(users);
-    }
-
-    setMode(mode);
-  };
-
-  return (
-    <div
-      className="flex-1 relative bg-no-repeat"
-      style={{
-        backgroundImage: `url(${leafBgTop.src}), url(${leafBgRight.src}), url(${leafBgBottom.src}), url(${leafBgLeft.src})`,
-        backgroundPosition: "top, bottom right, bottom, top left",
-        backgroundSize: "auto, 40vw 100vh , auto, 40vw 100vh",
-      }}
-    >
-      <div className="absolute top-0 left-0 w-full h-full bg-(--cover-dark)"></div>
-
-      <Button.Primary
-        type={BUTTON_TYPES.BUTTON}
-        onClick={loadUsers}
-        size={BUTTON_SIZES.SM}
-      >
-        get storage
-      </Button.Primary>
-      <br />
-      <Button.Default
-        type={BUTTON_TYPES.BUTTON}
-        onClick={clearUsersData}
-        size={BUTTON_SIZES.SM}
-      >
-        clear storage
-      </Button.Default>
-      <div className="border border-primary mt-5 p-4">
-        {mode === DEFAULT && (
-          <>
-            <Button.Primary
-              type="button"
-              className="mr-2"
-              onClick={() => {
-                toggleMode(NEW);
-              }}
-            >
-              new game
-            </Button.Primary>
-            <Button.Secondary
-              type="button"
-              className="mr-2"
-              onClick={() => {
-                toggleMode(LOAD);
-              }}
-            >
-              load game
-            </Button.Secondary>
-            <Button type="button" disabled onClick={() => {}}>
-              Disabled
-            </Button>
-          </>
-        )}
-        {mode === NEW && (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                toggleMode(DEFAULT);
-              }}
-            >
-              back
-            </button>
-            <br />
-            <label>
-              nickname: <input value={userName} onChange={handleChange} />
-            </label>
-            <button
-              type="button"
-              onClick={() => {
-                handleSubmit({ userName, score: 10 });
-              }}
-            >
-              submit
-            </button>
-          </>
-        )}
-        {mode === LOAD && (
-          <>
-            <button
-              type="button"
-              onClick={() => {
-                toggleMode(DEFAULT);
-              }}
-            >
-              back
-            </button>
-            <ul>
-              {loadData.length > 0 ? (
-                loadData.map((item) => (
-                  <li
-                    key={item.userName}
-                    onClick={() => {
-                      handleSubmit(item);
-                    }}
-                  >
-                    {item.userName}/ {item.score}
-                  </li>
-                ))
-              ) : (
-                <p>No Data</p>
-              )}
-            </ul>
-          </>
-        )}
-      </div>
-    </div>
-  );
+export default async function Home() {
+  const data = await fetchData();
+  return <Landingclient data={data} />;
 }
