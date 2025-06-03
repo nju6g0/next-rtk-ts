@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styles from "./styles.module.scss";
 
 interface AnimatedTextProps {
-  text: string;
-  initialDelay?: number; // 初始延遲（秒）
-  intervalDelay?: number; // 每個字之間的延遲（秒）
+  text: string[]; // 接收多段文字陣列
+  initialDelay?: number;
+  intervalDelay?: number;
   className?: string;
-  onAnimationDone?: () => void;
+  onAnimationDone?: (index: number, text: string) => void; // 每段文字播放完畢後的回調
+  onFinish?: () => void; // 完成全部文字後的回調
 }
 
 export default function AnimatedText({
@@ -17,27 +18,51 @@ export default function AnimatedText({
   intervalDelay = 0.1,
   className,
   onAnimationDone,
+  onFinish,
 }: AnimatedTextProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
+  const currentText = text[currentIndex] || "";
 
-  // 所有字動畫結束後，顯示 ▼
+  // 控制每段文字播放完畢後，出現箭頭
   useEffect(() => {
-    const totalDuration = initialDelay + text.length * intervalDelay;
+    setAnimationDone(false);
+    const totalDuration = initialDelay + currentText.length * intervalDelay;
     const timeout = setTimeout(() => {
       setAnimationDone(true);
-      onAnimationDone();
     }, totalDuration * 1000);
 
     return () => clearTimeout(timeout);
-  }, [initialDelay, intervalDelay, text.length]);
+  }, [currentIndex, currentText, initialDelay, intervalDelay]);
+
+  useEffect(() => {
+    if (animationDone && onAnimationDone) {
+      onAnimationDone(currentIndex, currentText);
+    }
+  }, [animationDone, onAnimationDone]);
+
+  // 點擊後切換到下一段，或完成全部時點擊觸發 onFinish
+  const handleClick = useCallback(() => {
+    if (!animationDone) return;
+    if (currentIndex < text.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
+    } else if (currentIndex === text.length - 1 && onFinish) {
+      onFinish();
+    }
+  }, [animationDone, currentIndex, text.length, onFinish]);
+
+  useEffect(() => {
+    window.addEventListener("click", handleClick);
+    return () => window.removeEventListener("click", handleClick);
+  }, [handleClick]);
 
   return (
     <div
-      aria-label={text}
-      className={`text-sm md:text-2xl relative py-4 pt-6 pb-10 ${className}`}
+      aria-label={currentText}
+      className={`text-sm md:text-2xl relative h-full ${className}`}
     >
       <div>
-        {[...text].map((char, i) => (
+        {[...currentText].map((char, i) => (
           <span
             key={char + i}
             className={styles.animatedLetter}
@@ -46,13 +71,14 @@ export default function AnimatedText({
             {char}
           </span>
         ))}
-        {/* 右下角彈跳箭頭提示 */}
-        {animationDone && (
-          <div
-            className={`absolute right-2 bottom-0 ${styles.triangle} ${styles.bounceIndicator}`}
-          />
-        )}
       </div>
+
+      {/* 右下角彈跳箭頭提示 */}
+      {animationDone && currentIndex <= text.length - 1 && (
+        <div
+          className={`absolute right-2 bottom-0 ${styles.triangle} ${styles.bounceIndicator}`}
+        />
+      )}
     </div>
   );
 }

@@ -25,12 +25,13 @@ export type DirectionType = keyof typeof DIRECTIONS;
 interface roleWithDialogProps {
   roleName: RoleNameType;
   withAnimation?: boolean;
-  text: string;
+  text: string[];
   textInitialDelay?: number;
   textIntervalDelay?: number;
   direction?: DirectionType;
   reverse?: boolean;
-  onAnimationDone?: () => void;
+  onAnimationDone?: (index: number, text: string) => void;
+  onFinish?: () => void;
 }
 
 export default function RoleWithDialog({
@@ -42,15 +43,16 @@ export default function RoleWithDialog({
   direction,
   reverse = false,
   onAnimationDone,
+  onFinish,
 }: roleWithDialogProps) {
   return (
     <div
-      className={`flex items-end ${direction === DIRECTIONS[RIGHT] && "flex-row-reverse"}`}
+      className={`flex ${direction === DIRECTIONS[RIGHT] && "flex-row-reverse"}`}
     >
       <div
         className={`md:w-1/6 w-1/4 shrink-0 ${reverse && "rotate-180"} ${direction === DIRECTIONS[RIGHT] ? "ml-5" : "mr-5"}`}
       >
-        <Role roleName={roleName} withAnimation={withAnimation} />
+        {/* <Role roleName={roleName} withAnimation={withAnimation} /> */}
       </div>
       <div
         className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]} shadow-(--shadow-primary) bg-(--cover-dark)`}
@@ -61,6 +63,7 @@ export default function RoleWithDialog({
           initialDelay={textInitialDelay}
           intervalDelay={textIntervalDelay}
           onAnimationDone={onAnimationDone}
+          onFinish={onFinish}
         />
         <span
           className={`absolute inline-block text-dark font-bold px-4 py-1 top-5 left-[-6px] ${roleBgColors[roleName]}`}
