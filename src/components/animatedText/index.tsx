@@ -8,6 +8,7 @@ interface AnimatedTextProps {
   initialDelay?: number;
   intervalDelay?: number;
   className?: string;
+  currentIndex: number;
   onAnimationDone?: (index: number, text: string) => void; // 每段文字播放完畢後的回調
   onFinish?: () => void; // 完成全部文字後的回調
 }
@@ -15,12 +16,12 @@ interface AnimatedTextProps {
 export default function AnimatedText({
   text,
   initialDelay = 0,
-  intervalDelay = 0.1,
+  intervalDelay = 0.05,
   className,
+  currentIndex,
   onAnimationDone,
   onFinish,
 }: AnimatedTextProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
   const currentText = text[currentIndex] || "";
 
@@ -39,22 +40,15 @@ export default function AnimatedText({
     if (animationDone && onAnimationDone) {
       onAnimationDone(currentIndex, currentText);
     }
-  }, [animationDone, onAnimationDone]);
-
-  // 點擊後切換到下一段，或完成全部時點擊觸發 onFinish
-  const handleClick = useCallback(() => {
-    if (!animationDone) return;
-    if (currentIndex < text.length - 1) {
-      setCurrentIndex((prev) => prev + 1);
-    } else if (currentIndex === text.length - 1 && onFinish) {
-      onFinish();
-    }
-  }, [animationDone, currentIndex, text.length, onFinish]);
-
-  useEffect(() => {
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, [handleClick]);
+  }, [animationDone]);
+  // useEffect(() => {
+  //   if (animationDone && onAnimationDone) {
+  //     onAnimationDone(currentIndex, currentText);
+  //   }
+  //   if (animationDone && currentIndex === text.length - 1 && onFinish) {
+  //     onFinish();
+  //   }
+  // }, [animationDone, currentIndex, onAnimationDone, onFinish, text.length]);
 
   return (
     <div

@@ -46,6 +46,8 @@
     rgba(255, 122, 0, 0.2) 80%,
     rgba(255, 122, 0, 0.6) 100%
   );
+  --linear-cover:
+    to bottom, rgba(10, 13, 20, 0.2) 20%, rgba(10, 13, 20, 0.8) 100%;
 }
 
 @theme {
@@ -68,6 +70,7 @@
   --color-role-gg: var(--roleGG);
   --color-role-brown: var(--roleBrown);
   --linear-primary: var(--linearPrimary);
+  --linear-cover: var(--linear-cover);
   --cover-dark: var(--coverGray);
   --cover-light: var(--coverLight);
   --shadow-primary: 0 0 14px var(--primary);
@@ -90,9 +93,9 @@
 body {
   /* background: var(--linearPrimary); */
   /* background-color: var(--coverLight); */
-  background-color: #333;
+  /* background-color: #333; */
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  /* background-image: url("../../public/bg_village.png"); */
+  background-image: url("../../public/bg_village.png");
   background-size: cover;
 }
