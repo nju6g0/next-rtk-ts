@@ -59,13 +59,24 @@ export default function IntroPage() {
                   Product Backlog
                 </p>
               </div>
-              <div className="p-5 pl-16 flex-1 flex flex-col justify-between bg-(image:--linear-primary)">
-                {[1, 2, 3, 4].map((el) => (
-                  <div
-                    key={el}
-                    className="border-2 border-dashed border-primary h-[80px] rounded-xl"
-                  />
-                ))}
+              <div className="p-5 flex-1 flex gap-12 bg-(image:--linear-primary)">
+                <div className="relative">
+                  <div className="w-1 h-full bg-primary rounded-xs" />
+                  <span className="absolute right-[-20px] top-0 text-dark">
+                    高
+                  </span>
+                  <span className="absolute right-[-20px] bottom-0 text-dark">
+                    低
+                  </span>
+                </div>
+                <div className="flex-1 flex flex-col justify-between">
+                  {Array.from({ length: 4 }, (_s, i) => i).map((el) => (
+                    <div
+                      key={el}
+                      className="border-2 border-dashed border-primary h-[80px] rounded-xl"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
             <div className="w-[300px]">
@@ -100,7 +111,7 @@ export default function IntroPage() {
 
   return (
     <>
-      <RoleWithDialog
+      {/* <RoleWithDialog
         roleName={ROLES.PO}
         text={TEXT}
         textInitialDelay={1.2}
@@ -112,7 +123,7 @@ export default function IntroPage() {
           console.log("動畫結束");
         }}
         currentIndex={currentIndex}
-      />
+      /> */}
       {renderScene()}
     </>
   );
