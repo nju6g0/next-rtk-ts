@@ -41,14 +41,6 @@ export default function AnimatedText({
       onAnimationDone(currentIndex, currentText);
     }
   }, [animationDone]);
-  // useEffect(() => {
-  //   if (animationDone && onAnimationDone) {
-  //     onAnimationDone(currentIndex, currentText);
-  //   }
-  //   if (animationDone && currentIndex === text.length - 1 && onFinish) {
-  //     onFinish();
-  //   }
-  // }, [animationDone, currentIndex, onAnimationDone, onFinish, text.length]);
 
   return (
     <div

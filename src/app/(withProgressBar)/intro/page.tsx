@@ -39,7 +39,7 @@ export default function IntroPage() {
         );
       case 2:
         return (
-          <div className="flex-1 flex gap-4 w-[80%] mt-20 mx-auto">
+          <div className="flex-1 flex gap-10 mt-20 mx-auto w-[1100px]">
             <div className="w-[300px]">
               <ListItem
                 classNames="mt-20 ml-15 opacity-60"
@@ -50,7 +50,7 @@ export default function IntroPage() {
                 text="後台職缺管理功能（資訊上架、下架、顯示應徵者資料）"
               />
             </div>
-            <div className="w-[500px] flex flex-col flex-1 border-2 border-primary rounded-4xl overflow-hidden">
+            <div className="w-[500px] flex flex-col flex-1 border-2 border-primary rounded-4xl overflow-hidden shadow-[10px_10px_0_rgba(0,255,244,0.5),20px_20px_0_rgba(0,255,244,0.2)] h-[500px]">
               <div className="bg-primary">
                 <p className="text-2xl text-dark text-center font-bold pt-[20px]">
                   產品待辦清單
@@ -59,13 +59,13 @@ export default function IntroPage() {
                   Product Backlog
                 </p>
               </div>
-              <div className="p-5 flex-1 flex gap-12 bg-(image:--linear-primary)">
-                <div className="relative">
-                  <div className="w-1 h-full bg-primary rounded-xs" />
-                  <span className="absolute right-[-20px] top-0 text-dark">
+              <div className="p-5 flex-1 flex gap-6 bg-(image:--linear-primary)">
+                <div className="flex flex-col items-center">
+                  <span className="text-white right-[-20px] top-0 text-dark">
                     高
                   </span>
-                  <span className="absolute right-[-20px] bottom-0 text-dark">
+                  <div className="flex-1 w-1 h-full bg-primary rounded-xs" />
+                  <span className="text-white right-[-20px] bottom-0 text-dark">
                     低
                   </span>
                 </div>
@@ -111,7 +111,7 @@ export default function IntroPage() {
 
   return (
     <>
-      {/* <RoleWithDialog
+      <RoleWithDialog
         roleName={ROLES.PO}
         text={TEXT}
         textInitialDelay={1.2}
@@ -123,7 +123,7 @@ export default function IntroPage() {
           console.log("動畫結束");
         }}
         currentIndex={currentIndex}
-      /> */}
+      />
       {renderScene()}
     </>
   );
