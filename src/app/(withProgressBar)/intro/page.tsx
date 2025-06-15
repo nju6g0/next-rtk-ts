@@ -5,6 +5,7 @@ import AnimatedText from "@/components/animatedText";
 import Role, { ROLES } from "@/components/animatedRole";
 import RoleWithDialog, { DIRECTIONS } from "@/components/roleWithDialog";
 import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
+import styles from "./styles.module.scss";
 
 function ListItem({ text, classNames }: { text: string; classNames?: string }) {
   return (
@@ -12,6 +13,10 @@ function ListItem({ text, classNames }: { text: string; classNames?: string }) {
       {text}
     </div>
   );
+}
+
+function DNDscene() {
+  return <div>dnd</div>;
 }
 export default function IntroPage() {
   const TEXT = [
@@ -39,7 +44,7 @@ export default function IntroPage() {
         );
       case 2:
         return (
-          <div className="flex-1 flex gap-10 mt-20 mx-auto w-[1100px]">
+          <div className="flex-1 flex gap-10 my-20 mx-auto w-[1100px]">
             <div className="w-[300px]">
               <ListItem
                 classNames="mt-20 ml-15 opacity-60"
@@ -79,17 +84,18 @@ export default function IntroPage() {
                 </div>
               </div>
             </div>
-            <div className="w-[300px]">
+            <div className="w-[300px] relative">
               <ListItem
                 classNames="mt-30 ml-15 opacity-60"
                 text="會員系統（登入、註冊、權限管理）"
               />
               <ListItem classNames="mt-50" text="前台職缺列表、應徵" />
+              <div className={styles.arrow} />
             </div>
           </div>
         );
       case 3:
-        return <div>dnd</div>;
+        return <DNDscene />;
       default:
         return null;
     }

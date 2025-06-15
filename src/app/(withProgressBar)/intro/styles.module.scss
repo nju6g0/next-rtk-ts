@@ -1,0 +1,22 @@
+.arrow {
+  top: 20px;
+  left: 60px;
+  transform: translate(-50%, -50%) rotate(290deg);
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-top-color: white;
+  border-right-color: white;
+  position: absolute;
+  left: -63px;
+  top: 208px;
+  &::after {
+    content: "";
+    display: block;
+    width: 2px;
+    height: 217px;
+    background-color: #fff;
+    transform-origin: top left;
+    transform: rotate(50deg);
+  }
+}
