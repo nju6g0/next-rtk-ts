@@ -60,12 +60,17 @@ function DNDscene() {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
   const [listItems, setListItems] = useState<string[]>([]);
+  const [isComplete, setIsComplete] = useState(false);
   const isShow = (key: string) => {
     return !listItems.includes(key);
   };
+  const handleClick = useCallback(() => {
+    console.log("go page");
+  }, []);
+
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="flex-1 flex gap-10 my-20 mx-auto w-[1100px]">
+      <div className="flex-1 flex gap-10 mt-20 mx-auto w-[1100px]">
         <div className="flex flex-col w-[300px]">
           <div className="flex-1">
             {isShow("item1") && (
@@ -147,6 +152,15 @@ function DNDscene() {
           </div>
         </div>
       </div>
+      <div className="flex justify-end mb-10">
+        <Button.Primary
+          type={BUTTON_TYPES.BUTTON}
+          onClick={handleClick}
+          disabled={!isComplete}
+        >
+          進入村莊
+        </Button.Primary>
+      </div>
     </DndContext>
   );
 
@@ -166,6 +180,7 @@ function DNDscene() {
         ...rest.slice(targetIndex),
       ];
       setListItems(result);
+      setIsComplete(listItems.length === 4);
     }
   }
 }
