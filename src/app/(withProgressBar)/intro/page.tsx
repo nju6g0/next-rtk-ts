@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import {
   DndContext,
   MouseSensor,
@@ -198,6 +199,7 @@ export default function IntroPage() {
     "換你來試試看吧！提示：請把需求拖移至產品待辦清單 ， 並調整其優先順序 。",
     "哇喔完成，尼太棒ㄌ！我們繼續吧！",
   ];
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentScene, setCurrentScene] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
@@ -213,7 +215,10 @@ export default function IntroPage() {
   };
   const handleClick = useCallback(() => {
     if (!animationDone || currentScene === 3) return;
-
+    if (currentScene === 4) {
+      router.push("/sprint");
+      return;
+    }
     setCurrentIndex((prev) => (prev >= TEXT.length - 1 ? prev : prev + 1));
     setAnimationDone(false);
     if (currentScene < TEXT.length) {
