@@ -16,7 +16,26 @@ import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
 import { Droppable, Draggable, SortableItem } from "@/components/dragAndDrop";
 import styles from "./styles.module.scss";
 
-function ListItem({ text, classNames }: { text: string; classNames?: string }) {
+function ListItem({
+  text,
+  classNames,
+  draggable = false,
+  id,
+}: {
+  text: string;
+  classNames?: string;
+  draggable?: boolean;
+  id?: string;
+}) {
+  if (draggable && id) {
+    return (
+      <Draggable id={id}>
+        <div className={`border-2 border-primary p-5 rounded-xl ${classNames}`}>
+          {text}
+        </div>
+      </Draggable>
+    );
+  }
   return (
     <div className={`border-2 border-primary p-5 rounded-xl ${classNames}`}>
       {text}
@@ -50,16 +69,22 @@ function DNDscene() {
         <div className="flex flex-col w-[300px]">
           <div className="flex-1">
             {isShow("item1") && (
-              <Draggable id="item1">
-                <ListItem classNames="mt-20 ml-15" text={DRAG_ITEMS.item1} />
-              </Draggable>
+              <ListItem
+                classNames="mt-20 ml-15"
+                text={DRAG_ITEMS.item1}
+                draggable
+                id="item1"
+              />
             )}
           </div>
           <div className="flex-1">
             {isShow("item2") && (
-              <Draggable id="item2">
-                <ListItem classNames="mt-20 mr-15" text={DRAG_ITEMS.item2} />
-              </Draggable>
+              <ListItem
+                classNames="mt-20 mr-15"
+                text={DRAG_ITEMS.item2}
+                draggable
+                id="item2"
+              />
             )}
           </div>
         </div>
@@ -102,16 +127,22 @@ function DNDscene() {
         <div className="w-[300px]">
           <div className="flex-1">
             {isShow("item3") && (
-              <Draggable id="item3">
-                <ListItem classNames="mt-30 ml-15" text={DRAG_ITEMS.item3} />
-              </Draggable>
+              <ListItem
+                classNames="mt-30 ml-15"
+                text={DRAG_ITEMS.item3}
+                draggable
+                id="item3"
+              />
             )}
           </div>
           <div className="flex-1">
             {isShow("item4") && (
-              <Draggable id="item4">
-                <ListItem classNames="mt-50" text={DRAG_ITEMS.item4} />
-              </Draggable>
+              <ListItem
+                classNames="mt-50"
+                text={DRAG_ITEMS.item4}
+                draggable
+                id="item4"
+              />
             )}
           </div>
         </div>
@@ -120,10 +151,21 @@ function DNDscene() {
   );
 
   function handleDragEnd(event: any) {
-    console.log("Drag ended:", event);
     const { over, active } = event;
     if (over.id === "list") {
       setListItems([...listItems, active.id]);
+      return;
+    }
+    if (listItems.includes(active.id) && listItems.includes(over.id)) {
+      const targetIndex = listItems.indexOf(over.id);
+      const target = listItems.find((item) => item === active.id)!;
+      const rest = listItems.filter((item) => item !== active.id);
+      const result = [
+        ...rest.slice(0, targetIndex),
+        target,
+        ...rest.slice(targetIndex),
+      ];
+      setListItems(result);
     }
   }
 }
@@ -157,11 +199,11 @@ export default function IntroPage() {
             <div className="w-[300px]">
               <ListItem
                 classNames="mt-20 ml-15 opacity-60"
-                text="應徵者的線上履歷編輯器"
+                text={DRAG_ITEMS.item1}
               />
               <ListItem
                 classNames="mt-20 mr-15 opacity-60"
-                text="後台職缺管理功能（資訊上架、下架、顯示應徵者資料）"
+                text={DRAG_ITEMS.item2}
               />
             </div>
             <div className="w-[500px] flex flex-col flex-1 border-2 border-primary rounded-4xl overflow-hidden shadow-[10px_10px_0_rgba(0,255,244,0.5),20px_20px_0_rgba(0,255,244,0.2)] h-[500px]">
@@ -196,9 +238,9 @@ export default function IntroPage() {
             <div className="w-[300px] relative">
               <ListItem
                 classNames="mt-30 ml-15 opacity-60"
-                text="會員系統（登入、註冊、權限管理）"
+                text={DRAG_ITEMS.item3}
               />
-              <ListItem classNames="mt-50" text="前台職缺列表、應徵" />
+              <ListItem classNames="mt-50" text={DRAG_ITEMS.item4} />
               <div className={styles.arrow} />
             </div>
           </div>
