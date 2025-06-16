@@ -56,17 +56,24 @@ const DRAG_ITEMS: ItemMap = {
   item3: "會員系統（登入、註冊、權限管理）",
   item4: "前台職缺列表、應徵",
 };
-function DNDscene() {
+
+interface DNDscenProps {
+  // isCompleteDrag: boolean;
+  // onDragComplete: (value: boolean) => void;
+  onDragComplete: () => void;
+}
+function DNDscene({ onDragComplete }: DNDscenProps) {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
 
   const [listItems, setListItems] = useState<string[]>([]);
-  const [isComplete, setIsComplete] = useState(false);
+  const [isCompleteDrag, setIsCompleteDrag] = useState(false);
   const isShow = (key: string) => {
     return !listItems.includes(key);
   };
-  const handleClick = useCallback(() => {
-    console.log("go page");
-  }, []);
+  const handleClick = () => {
+    if (!isCompleteDrag) return;
+    onDragComplete();
+  };
 
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
@@ -113,7 +120,7 @@ function DNDscene() {
                 <SortableContext items={listItems}>
                   {listItems.map((el, idx) => (
                     <SortableItem key={el + idx} id={el}>
-                      <div className="grid place-items-center border-2 border-dashed border-primary h-[80px] rounded-xl mt-2 px-2 text-center">
+                      <div className="grid place-items-center border-2 border-primary h-[80px] rounded-xl mt-2 px-2 text-center">
                         {DRAG_ITEMS[el] || ""}
                       </div>
                     </SortableItem>
@@ -152,13 +159,13 @@ function DNDscene() {
           </div>
         </div>
       </div>
-      <div className="flex justify-end mb-10">
+      <div className="flex justify-end mb-10 px-4">
         <Button.Primary
           type={BUTTON_TYPES.BUTTON}
           onClick={handleClick}
-          disabled={!isComplete}
+          disabled={!isCompleteDrag}
         >
-          進入村莊
+          我完成了
         </Button.Primary>
       </div>
     </DndContext>
@@ -180,7 +187,7 @@ function DNDscene() {
         ...rest.slice(targetIndex),
       ];
       setListItems(result);
-      setIsComplete(listItems.length === 4);
+      setIsCompleteDrag(listItems.length === 4);
     }
   }
 }
@@ -189,19 +196,35 @@ export default function IntroPage() {
     "\ 碰 / 我是短衝小精靈，開發 A 組的 PO。PO 也就是產品負責人（Product Owner），產品負責人會負責評估產品待辦清單的價值與重要性，依序排列要執行的優先順序 ， 對齊產品目標 。 最後排出產品待辦清單 （Product Backlog） 唷 ！",
     "剛好我最近手邊有一個 「 人才招募系統 」 的案子 ， 我才剛列出了「 產品需求清單 」。 既然你都來了 ， 來試試看調整產品優先度 ， 排出產品待辦清單吧 ！ ",
     "換你來試試看吧！提示：請把需求拖移至產品待辦清單 ， 並調整其優先順序 。",
+    "哇喔完成，尼太棒ㄌ！我們繼續吧！",
   ];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentScene, setCurrentScene] = useState(3);
+  const [currentScene, setCurrentScene] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
 
   const changeScene = (index: number) => {
-    return;
     setAnimationDone(true);
     setCurrentScene(index > TEXT.length - 1 ? index : index + 1);
   };
+
+  const handleCompleteDrag = () => {
+    setCurrentIndex(3);
+    setAnimationDone(false);
+  };
+  const handleClick = useCallback(() => {
+    if (!animationDone || currentScene === 3) return;
+
+    setCurrentIndex((prev) => (prev >= TEXT.length - 1 ? prev : prev + 1));
+    setAnimationDone(false);
+    if (currentScene < TEXT.length) {
+      setCurrentScene(0);
+    }
+  }, [animationDone]);
+
   const renderScene = () => {
     switch (currentScene) {
       case 1:
+      case 4:
         return (
           <div className="flex-1 text-center  w-full bg-linear-(--linear-cover) shadow-[0px_-10px_20px_rgba(10,13,20,0.20),0px_10px_10px_rgba(10,13,20,0.60)]">
             <div className="h-[100px]" />
@@ -261,20 +284,11 @@ export default function IntroPage() {
           </div>
         );
       case 3:
-        return <DNDscene />;
+        return <DNDscene onDragComplete={handleCompleteDrag} />;
       default:
         return null;
     }
   };
-
-  const handleClick = useCallback(() => {
-    if (!animationDone) return;
-    setCurrentIndex((prev) => (prev >= TEXT.length - 1 ? prev : prev + 1));
-    setAnimationDone(false);
-    if (currentScene < TEXT.length) {
-      setCurrentScene(0);
-    }
-  }, [animationDone]);
 
   useEffect(() => {
     window.addEventListener("click", handleClick);
@@ -283,7 +297,7 @@ export default function IntroPage() {
 
   return (
     <>
-      {/* <RoleWithDialog
+      <RoleWithDialog
         roleName={ROLES.PO}
         text={TEXT}
         textInitialDelay={1.2}
@@ -295,7 +309,7 @@ export default function IntroPage() {
           console.log("動畫結束");
         }}
         currentIndex={currentIndex}
-      /> */}
+      />
       {renderScene()}
     </>
   );
