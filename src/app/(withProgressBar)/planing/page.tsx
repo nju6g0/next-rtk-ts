@@ -1,0 +1,177 @@
+"use client";
+import { useState } from "react";
+import Image from "next/image";
+
+import Role, { ROLES } from "@/components/animatedRole";
+import RoleWithDialog, { DIRECTIONS } from "@/components/roleWithDialog";
+import AnimatedText from "@/components/animatedText";
+import scene1Image from "../../../../public/planing/scene1.svg";
+import scene2Image from "../../../../public/planing/scene2.svg";
+import scene3Image from "../../../../public/planing/scene3.png";
+import clockImage from "../../../../public/planing/time.png";
+
+function Scene1() {
+  const LINES = [
+    "產品待辦清單好了之後 ， 我們來召集 ScrumMaster 和開發團隊共同召開短衝規劃會議（Sprint Planning）。短衝即是一個迭代，具有固定時間限制，我們會在這個會議中，決定要完成哪些工作事項來達到商業需求，列出短衝待辦清單（Sprint Backlog，並由開發團隊在接下來的產品開發週期裡執行。",
+  ];
+  return (
+    <>
+      <RoleWithDialog
+        roleName={ROLES.PO}
+        text={LINES}
+        textInitialDelay={1.2}
+        textIntervalDelay={0.1}
+        direction={DIRECTIONS.LEFT}
+        reverse
+        onAnimationDone={() => {}}
+        onFinish={() => {
+          console.log("動畫結束");
+        }}
+        currentIndex={0}
+      />
+      <div className="flex items-end p-10">
+        <div className="grow">
+          <Image
+            src={scene1Image.src}
+            className="m-auto"
+            alt="planing"
+            width={scene1Image.width}
+            height={scene1Image.height}
+          />
+        </div>
+        <div className="w-[300px]">
+          <Role roleName={ROLES.SM} withAnimation={false} />
+        </div>
+      </div>
+    </>
+  );
+}
+function Scene2() {
+  const LINES = [
+    "哦哦 ， 你是新來的前端吧 ！ 我是這次的 ScrumMaster MM ， 我的工作主要是促成開發團隊成員協作 、 引導團隊進行自省會議 ， 提升團隊成員對 Scrum 瞭解 。",
+    "這兩位是 EE 和 GG ， 是我們開發團隊的成員唷～ 我們團隊一次 Sprint 週期是兩週的時間 ， 依照我的觀察 ， 目前團隊可以負擔的點數 (Story Point) 大約是20 點左右。",
+  ];
+  const renderContent = () => {
+    const [current, setCurrent] = useState(1);
+    switch (current) {
+      case 0:
+        return (
+          <div className="flex items-start p-10">
+            <div className="w-[250px] rotate-180">
+              <Role roleName={ROLES.PO} withAnimation={false} />
+            </div>
+            <div className="grow">
+              <Image
+                src={scene2Image.src}
+                className="m-auto"
+                alt="planing"
+                width={scene2Image.width}
+                height={scene2Image.height}
+              />
+            </div>
+          </div>
+        );
+      case 1:
+        return (
+          <div className="flex items-start p-10">
+            <div className="grow">
+              <Image
+                src={scene3Image.src}
+                className="m-auto"
+                alt="planing"
+                width={scene3Image.width}
+                height={scene3Image.height}
+              />
+            </div>
+            <div className="w-[200px] rotate-180">
+              <Role roleName={ROLES.EE} withAnimation={false} />
+            </div>
+            <div className="w-[200px] rotate-180">
+              <Role roleName={ROLES.GG} withAnimation={false} />
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+  return (
+    <>
+      {renderContent()}
+      <RoleWithDialog
+        roleName={ROLES.SM}
+        text={LINES}
+        textInitialDelay={1.2}
+        textIntervalDelay={0.1}
+        direction={DIRECTIONS.RIGHT}
+        onAnimationDone={() => {}}
+        onFinish={() => {
+          console.log("動畫結束");
+        }}
+        currentIndex={0}
+      />
+    </>
+  );
+}
+const Book = () => {
+  return (
+    <div className="flex w-[150px] h-[150px]">
+      <div className="border-5 border-primary w-[30px] rounded-[12px]"></div>
+      <div className="grow border-5 border-primary rounded-[12px_0_0_12px]"></div>
+    </div>
+  );
+};
+function Scene3() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const LINES = [
+    "欸新來的 ， 你應該不知道點數是什麼意思吧ㄏㄏ ， 我來跟你介紹一下吧～Story Point 目的是為了衡量速度 ， 是用大概花費的時間預估出的相對點數哦 。",
+    "以 「 費氏數列 」 的 1 、2 、3 、5 、8 、13 、2來估算各項 Story 的分數 。 Story Point 越小 ， 表示這個 Story 花費時間越少 ； 越大 ， 花費時間則越多 。 如果出現了一個 21 分 ， 可能表示這個 Story 太龐大 ， 需要再拆分細項執行唷 ！",
+  ];
+  return (
+    <>
+      <div className="flex items-start p-10">
+        <RoleWithDialog
+          roleName={ROLES.EE}
+          text={LINES}
+          textInitialDelay={1.2}
+          textIntervalDelay={0.1}
+          direction={DIRECTIONS.RIGHT}
+          reverse
+          onAnimationDone={() => {}}
+          onFinish={() => {
+            console.log("動畫結束");
+          }}
+          currentIndex={0}
+        />
+        <div className="w-[350px] rotate-180 ml-4">
+          <Role roleName={ROLES.GG} withAnimation={false} />
+        </div>
+      </div>
+      <div className="px-10">
+        <Image
+          src={clockImage.src}
+          alt="clock"
+          width={clockImage.width}
+          height={clockImage.height}
+        />
+        <Book />
+      </div>
+    </>
+  );
+}
+export default function PlaningPage() {
+  const [currentScene, setCurrentScene] = useState(2);
+  const renderScene = () => {
+    switch (currentScene) {
+      case 0:
+        return <Scene1 />;
+      case 1:
+        return <Scene2 />;
+      case 2:
+        return <Scene3 />;
+      default:
+        return null;
+    }
+  };
+  return renderScene();
+}
