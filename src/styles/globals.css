@@ -71,7 +71,7 @@
   --color-role-brown: var(--roleBrown);
   --linear-primary: var(--linearPrimary);
   --linear-cover: var(--linear-cover);
-  --cover-dark: var(--coverGray);
+  --color-cover-dark: var(--coverGray);
   --cover-light: var(--coverLight);
   --shadow-primary: 0 0 14px var(--primary);
 }
@@ -92,10 +92,10 @@
 
 body {
   /* background: var(--linearPrimary); */
-  /* background-color: var(--coverLight); */
+  background-color: var(--coverLight);
   /* background-color: #333; */
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  background-image: url("../../public/bg_village.png");
+  /* background-image: url("../../public/bg_village.png"); */
   background-size: cover;
 }

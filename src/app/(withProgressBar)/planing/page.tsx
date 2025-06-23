@@ -113,23 +113,106 @@ function Scene2() {
     </>
   );
 }
-const Book = () => {
-  return (
-    <div className="flex w-[150px] h-[150px]">
-      <div className="border-5 border-primary w-[30px] rounded-[12px]"></div>
-      <div className="grow border-5 border-primary rounded-[12px_0_0_12px]"></div>
+
+const Book = ({
+  num,
+  bgColor = "bg-primary",
+  borderColor = "border-primary",
+}: {
+  num?: number;
+  bgColor?: string;
+  borderColor?: string;
+}) => (
+  <div className="relative flex w-[150px] h-[150px]">
+    <div className={`border-5 ${borderColor} w-[30px] rounded-[12px]`} />
+    <div
+      className={`grow border-5 ${borderColor} rounded-[12px_0_0_12px] flex items-center justify-center`}
+    >
+      <div
+        className={`rounded-[50%] w-[50px] h-[50px] text-center leading-[50px] font-bold text-xl ${bgColor}`}
+      >
+        {num}
+      </div>
     </div>
-  );
-};
+    {num && (
+      <div className="absolute top-[-10px] right-[-10px]">
+        <div
+          className={`relative border-3 ${borderColor} rounded-[25px] w-[50px] h-[50px] bg-cover-dark`}
+        >
+          <div
+            className={`absolute top-[50%] left-[50%] w-[20px] h-[3px] origin-left rotate-270 rounded-[3px] ${bgColor}`}
+          />
+          <div
+            className={`absolute top-[50%] left-[50%] w-[20px] h-[3px] origin-left rotate-[-30deg] rounded-[3px] ${bgColor}`}
+          />
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 function Scene3() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
   const LINES = [
     "欸新來的 ， 你應該不知道點數是什麼意思吧ㄏㄏ ， 我來跟你介紹一下吧～Story Point 目的是為了衡量速度 ， 是用大概花費的時間預估出的相對點數哦 。",
-    "以 「 費氏數列 」 的 1 、2 、3 、5 、8 、13 、2來估算各項 Story 的分數 。 Story Point 越小 ， 表示這個 Story 花費時間越少 ； 越大 ， 花費時間則越多 。 如果出現了一個 21 分 ， 可能表示這個 Story 太龐大 ， 需要再拆分細項執行唷 ！",
+    "以 「 費氏數列 」 的 1 、2 、3 、5 、8 、13、21 s來估算各項 Story 的分數 。 Story Point 越小 ， 表示這個 Story 花費時間越少 ； 越大 ， 花費時間則越多 。 如果出現了一個 21 分 ， 可能表示這個 Story 太龐大 ， 需要再拆分細項執行唷 ！",
   ];
+  const renderContent = () => {
+    switch (currentIndex) {
+      case 0:
+        return (
+          <>
+            <Image
+              src={clockImage.src}
+              alt="clock"
+              width={clockImage.width}
+              height={clockImage.height}
+            />
+            <div>
+              <div className="flex justify-center gap-10 mb-4">
+                {Array.from({ length: 3 }, (x, i) => i).map((el) => (
+                  <Book key={el + "book"} />
+                ))}
+              </div>
+              <div className="flex justify-center gap-10">
+                {Array.from({ length: 4 }, (x, i) => i).map((el) => (
+                  <Book key={el + "book"} />
+                ))}
+              </div>
+            </div>
+          </>
+        );
+      case 1:
+        return (
+          <>
+            <div className="flex justify-center gap-10 mb-4">
+              <Book num={1} />
+              <Book num={2} />
+              <Book num={3} />
+            </div>
+            <div className="flex justify-center gap-10">
+              <Book num={5} />
+              <Book num={8} />
+              <Book
+                num={13}
+                bgColor="bg-role-ee"
+                borderColor="border-role-ee"
+              />
+              <Book
+                num={21}
+                bgColor="bg-role-gg"
+                borderColor="border-role-gg"
+              />
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
   return (
     <>
-      <div className="flex items-start p-10">
+      {/* <div className="flex items-start p-10">
         <RoleWithDialog
           roleName={ROLES.EE}
           text={LINES}
@@ -146,16 +229,8 @@ function Scene3() {
         <div className="w-[350px] rotate-180 ml-4">
           <Role roleName={ROLES.GG} withAnimation={false} />
         </div>
-      </div>
-      <div className="px-10">
-        <Image
-          src={clockImage.src}
-          alt="clock"
-          width={clockImage.width}
-          height={clockImage.height}
-        />
-        <Book />
-      </div>
+      </div> */}
+      <div className="px-10">{renderContent()}</div>
     </>
   );
 }
