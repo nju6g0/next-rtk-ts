@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 import Role, { ROLES } from "@/components/animatedRole";
 import RoleWithDialog, { DIRECTIONS } from "@/components/roleWithDialog";
@@ -71,7 +72,7 @@ function Scene2({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
     "哦哦 ， 你是新來的前端吧 ！ 我是這次的 ScrumMaster MM ， 我的工作主要是促成開發團隊成員協作 、 引導團隊進行自省會議 ， 提升團隊成員對 Scrum 瞭解 。",
     "這兩位是 EE 和 GG ， 是我們開發團隊的成員唷～ 我們團隊一次 Sprint 週期是兩週的時間 ， 依照我的觀察 ， 目前團隊可以負擔的點數 (Story Point) 大約是20 點左右。",
   ];
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
 
   const handleClick = useCallback(
@@ -144,11 +145,13 @@ function Scene2({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
         textInitialDelay={1.2}
         textIntervalDelay={0.1}
         direction={DIRECTIONS.RIGHT}
-        onAnimationDone={() => {}}
+        onAnimationDone={() => {
+          setAnimationDone(true);
+        }}
         onFinish={() => {
           console.log("動畫結束");
         }}
-        currentIndex={0}
+        currentIndex={current}
       />
     </>
   );
@@ -168,11 +171,13 @@ const Book = ({
     <div
       className={`grow border-5 ${borderColor} rounded-[12px_0_0_12px] flex items-center justify-center`}
     >
-      <div
-        className={`rounded-[50%] w-[50px] h-[50px] text-center leading-[50px] font-bold text-xl ${bgColor}`}
-      >
-        {num}
-      </div>
+      {num && (
+        <div
+          className={`rounded-[50%] w-[50px] h-[50px] text-center leading-[50px] font-bold text-xl ${bgColor}`}
+        >
+          {num}
+        </div>
+      )}
     </div>
     {num && (
       <div className="absolute top-[-10px] right-[-10px]">
@@ -191,19 +196,20 @@ const Book = ({
   </div>
 );
 
-function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
+function Scene3() {
   const LINES = [
     "欸新來的 ， 你應該不知道點數是什麼意思吧ㄏㄏ ， 我來跟你介紹一下吧～Story Point 目的是為了衡量速度 ， 是用大概花費的時間預估出的相對點數哦 。",
     "以 「 費氏數列 」 的 1 、2 、3 、5 、8 、13、21 s來估算各項 Story 的分數 。 Story Point 越小 ， 表示這個 Story 花費時間越少 ； 越大 ， 花費時間則越多 。 如果出現了一個 21 分 ， 可能表示這個 Story 太龐大 ， 需要再拆分細項執行唷 ！",
   ];
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
 
   const handleClick = useCallback(
     (e: MouseEvent) => {
       if (!animationDone) return;
       if (currentIndex >= LINES.length - 1) {
-        onChangeScene(3);
+        router.push("/productbacklog");
       } else {
         setCurrentIndex((prev) => prev + 1);
       }
@@ -245,6 +251,7 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
       case 1:
         return (
           <>
+            <div className="h-[100px]" />
             <div className="flex justify-center gap-10 mb-4">
               <Book num={1} />
               <div className={styles.animatedbook}>
@@ -299,7 +306,7 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
   };
   return (
     <>
-      {/* <div className="flex items-start p-10">
+      <div className="flex items-start p-10">
         <RoleWithDialog
           roleName={ROLES.EE}
           text={LINES}
@@ -307,22 +314,24 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
           textIntervalDelay={0.1}
           direction={DIRECTIONS.RIGHT}
           reverse
-          onAnimationDone={() => {}}
+          onAnimationDone={() => {
+            setAnimationDone(true);
+          }}
           onFinish={() => {
             console.log("動畫結束");
           }}
-          currentIndex={0}
+          currentIndex={currentIndex}
         />
         <div className="w-[350px] rotate-180 ml-4">
           <Role roleName={ROLES.GG} withAnimation={false} />
         </div>
-      </div> */}
+      </div>
       <div className="px-10">{renderContent()}</div>
     </>
   );
 }
 export default function PlaningPage() {
-  const [currentScene, setCurrentScene] = useState(2);
+  const [currentScene, setCurrentScene] = useState(0);
   const changeScene = (scene: number) => {
     setCurrentScene(scene);
   };
@@ -333,7 +342,7 @@ export default function PlaningPage() {
       case 1:
         return <Scene2 onChangeScene={changeScene} />;
       case 2:
-        return <Scene3 onChangeScene={changeScene} />;
+        return <Scene3 />;
       default:
         return null;
     }
