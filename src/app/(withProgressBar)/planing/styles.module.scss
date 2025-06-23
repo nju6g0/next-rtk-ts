@@ -1,0 +1,14 @@
+.animatedbook {
+  animation: slideRight 1s ease-out forwards;
+  opacity: 0;
+}
+@keyframes slideRight {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); /* 滑進到原本位置 */
+    opacity: 1;
+  }
+}

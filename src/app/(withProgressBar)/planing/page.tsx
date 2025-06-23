@@ -9,6 +9,7 @@ import scene1Image from "../../../../public/planing/scene1.svg";
 import scene2Image from "../../../../public/planing/scene2.svg";
 import scene3Image from "../../../../public/planing/scene3.png";
 import clockImage from "../../../../public/planing/time.png";
+import styles from "./styles.module.scss";
 
 function Scene1({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
   const LINES = [
@@ -246,22 +247,49 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
           <>
             <div className="flex justify-center gap-10 mb-4">
               <Book num={1} />
-              <Book num={2} />
-              <Book num={3} />
+              <div className={styles.animatedbook}>
+                <Book num={2} />
+              </div>
+              <div
+                className={styles.animatedbook}
+                style={{ animationDelay: "1s" }}
+              >
+                <Book num={3} />
+              </div>
             </div>
             <div className="flex justify-center gap-10">
-              <Book num={5} />
-              <Book num={8} />
-              <Book
-                num={13}
-                bgColor="bg-role-ee"
-                borderColor="border-role-ee"
-              />
-              <Book
-                num={21}
-                bgColor="bg-role-gg"
-                borderColor="border-role-gg"
-              />
+              <div
+                className={styles.animatedbook}
+                style={{ animationDelay: "2s" }}
+              >
+                <Book num={5} />
+              </div>
+              <div
+                className={styles.animatedbook}
+                style={{ animationDelay: "3s" }}
+              >
+                <Book num={8} />
+              </div>
+              <div
+                className={styles.animatedbook}
+                style={{ animationDelay: "4s" }}
+              >
+                <Book
+                  num={13}
+                  bgColor="bg-role-ee"
+                  borderColor="border-role-ee"
+                />
+              </div>
+              <div
+                className={styles.animatedbook}
+                style={{ animationDelay: "5s" }}
+              >
+                <Book
+                  num={21}
+                  bgColor="bg-role-gg"
+                  borderColor="border-role-gg"
+                />
+              </div>
             </div>
           </>
         );
@@ -271,7 +299,7 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
   };
   return (
     <>
-      <div className="flex items-start p-10">
+      {/* <div className="flex items-start p-10">
         <RoleWithDialog
           roleName={ROLES.EE}
           text={LINES}
@@ -288,7 +316,7 @@ function Scene3({ onChangeScene }: { onChangeScene: (scene: number) => void }) {
         <div className="w-[350px] rotate-180 ml-4">
           <Role roleName={ROLES.GG} withAnimation={false} />
         </div>
-      </div>
+      </div> */}
       <div className="px-10">{renderContent()}</div>
     </>
   );
