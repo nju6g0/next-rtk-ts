@@ -70,6 +70,7 @@
   --color-role-gg: var(--roleGG);
   --color-role-brown: var(--roleBrown);
   --linear-primary: var(--linearPrimary);
+  --linear-role-ee: var(--linearRoleEE);
   --linear-cover: var(--linear-cover);
   --color-cover-dark: var(--coverGray);
   --cover-light: var(--coverLight);

@@ -110,7 +110,7 @@ function DNDscene({ onDragComplete }: DNDscenProps) {
               Product Backlog
             </p>
           </div>
-          <div className="p-5 flex-1 flex gap-6 bg-(image:--linear-primary)">
+          <div className="p-5 flex-1 flex gap-6 bg-(image:--linear-cover)">
             <div className="flex flex-col items-center">
               <span className="text-white right-[-20px] top-0">高</span>
               <div className="flex-1 w-1 h-full bg-primary rounded-xs" />

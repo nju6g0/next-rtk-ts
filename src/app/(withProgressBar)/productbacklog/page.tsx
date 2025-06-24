@@ -20,9 +20,22 @@ interface Item {
   text: string;
   score: number;
 }
-function DraggableMarkup({ id, text, score }: Item) {
+function DragItem({ id, text, score }: Item) {
   return (
-    <Draggable id={id} className="p-2 border border-primary w-full">
+    <Draggable
+      id={id}
+      className="border-2 border-primary rounded-lg p-2 bg-cover-dark text-white text-center"
+    >
+      {text} score: {score}
+    </Draggable>
+  );
+}
+function DropItem({ id, text, score }: Item) {
+  return (
+    <Draggable
+      id={id}
+      className="border-2 border-role-ee rounded-lg p-2 bg-cover-dark text-white text-center w-full"
+    >
       {text} score: {score}
     </Draggable>
   );
@@ -42,27 +55,47 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
   const isComplete = totalScore <= 20 && totalScore > 0;
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
-      <div className="flex items-end gap-4 p-10">
-        <Droppable
-          id="leftArea"
-          className="flex flex-col mr-2 border border-primary h-[500px] w-[200px]"
-        >
-          {leftItems.map((item) => (
-            <DraggableMarkup key={item.id} {...item} />
-          ))}
-        </Droppable>
-        <Droppable
-          id="rightArea"
-          className="flex flex-col border border-role-ee h-[500px] w-[200px]"
-        >
-          <SortableContext items={rightItems}>
-            {rightItems.map((item) => (
-              <SortableItem key={item.id} id={item.id}>
-                <DraggableMarkup key={item.id} {...item} />
-              </SortableItem>
+      <div className="flex items-end gap-10 p-10">
+        <div className="w-[400px] flex flex-col border-2 border-primary rounded-4xl overflow-hidden shadow-[10px_10px_0_rgba(0,255,244,0.5),20px_20px_0_rgba(0,255,244,0.2)] h-[500px]">
+          <div className="bg-primary">
+            <p className="text-2xl text-dark text-center font-bold pt-[20px]">
+              產品待辦清單
+            </p>
+            <p className="text-primary-100 text-base text-center pb-[20px]">
+              Product Backlog
+            </p>
+          </div>
+          <Droppable
+            id="leftArea"
+            className="flex-1 flex flex-col border border-primary h-[500px] p-5 bg-(image:--linear-primary)"
+          >
+            {leftItems.map((item) => (
+              <DragItem key={item.id} {...item} />
             ))}
-          </SortableContext>
-        </Droppable>
+          </Droppable>
+        </div>
+        <div className="w-[400px] flex flex-col border-2 border-role-ee rounded-4xl overflow-hidden shadow-[10px_10px_0_rgba(255,199,0,0.5),20px_20px_0_rgba(255,199,0,0.2)] h-[500px]">
+          <div className="bg-role-ee">
+            <p className="text-2xl text-dark text-center font-bold pt-[20px]">
+              開發A組的短衝待辦清單
+            </p>
+            <p className="text-primary-100 text-base text-center pb-[20px]">
+              Sprint Backlog
+            </p>
+          </div>
+          <Droppable
+            id="rightArea"
+            className="flex-1 flex flex-col border border-role-ee h-[500px] p-5 bg-(image:--linear-role-ee)"
+          >
+            <SortableContext items={rightItems}>
+              {rightItems.map((item) => (
+                <SortableItem key={item.id} id={item.id}>
+                  <DropItem key={item.id} {...item} />
+                </SortableItem>
+              ))}
+            </SortableContext>
+          </Droppable>
+        </div>
         <Button.Primary
           type={BUTTON_TYPES.BUTTON}
           disabled={!isComplete}
@@ -80,12 +113,18 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
     const { over, active } = event;
 
     const item = ITEMS.find((item) => item.id === active.id)!;
-    if (over.id === "rightArea") {
+    if (
+      over.id === "rightArea" &&
+      !rightItems.some((el) => el.id === active.id)
+    ) {
       setLeftItems((prev) => prev.filter((item) => item.id !== active.id));
       setRightItems((prev) => [...prev, item]);
       return;
     }
-    if (over.id === "leftArea") {
+    if (
+      over.id === "leftArea" &&
+      !leftItems.some((el) => el.id === active.id)
+    ) {
       setRightItems((prev) => prev.filter((item) => item.id !== active.id));
       setLeftItems((prev) => [...prev, item]);
       return;
