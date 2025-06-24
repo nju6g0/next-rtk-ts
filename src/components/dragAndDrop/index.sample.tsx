@@ -12,6 +12,12 @@ import { Droppable } from "./Droppable";
 import { Draggable } from "./Draggable";
 import { SortableItem } from "./Sortable";
 
+function arrayMove<T>(arr: T[], from: number, to: number): T[] {
+  const clone = [...arr];
+  const [item] = clone.splice(from, 1);
+  clone.splice(to, 0, item);
+  return clone;
+}
 // const containers = ["A", "B", "C"];
 const dragItems = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
 export default function DragAndDrop() {
@@ -85,17 +91,24 @@ export default function DragAndDrop() {
       });
       return;
     }
-    if (rightItems.includes(active.id) && rightItems.includes(over.id)) {
-      const targetIndex = rightItems.indexOf(over.id);
-      const target = rightItems.find((item) => item === active.id)!;
-      const rest = rightItems.filter((item) => item !== active.id);
-      const result = [
-        ...rest.slice(0, targetIndex),
-        target,
-        ...rest.slice(targetIndex),
-      ];
-      console.log("result", result);
-      setRightItems(result);
+    if (
+      rightItems.includes(active.id) &&
+      rightItems.includes(over.id) &&
+      active.id !== over.id
+    ) {
+      // const targetIndex = rightItems.indexOf(over.id);
+      // const target = rightItems.find((item) => item === active.id)!;
+      // const rest = rightItems.filter((item) => item !== active.id);
+      // const result = [
+      //   ...rest.slice(0, targetIndex),
+      //   target,
+      //   ...rest.slice(targetIndex),
+      // ];
+      // console.log("result", result);
+      // setRightItems(result);
+      const oldIndex = rightItems.indexOf(active.id);
+      const newIndex = rightItems.indexOf(over.id);
+      setRightItems(arrayMove(rightItems, oldIndex, newIndex));
       return;
     }
 
