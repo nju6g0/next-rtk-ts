@@ -322,7 +322,7 @@ function Scene3() {
           }}
           currentIndex={currentIndex}
         />
-        <div className="w-[350px] rotate-180 ml-4">
+        <div className="shrink-0 w-[180px] rotate-180 ml-4">
           <Role roleName={ROLES.GG} withAnimation={false} />
         </div>
       </div>
@@ -331,7 +331,7 @@ function Scene3() {
   );
 }
 export default function PlaningPage() {
-  const [currentScene, setCurrentScene] = useState(0);
+  const [currentScene, setCurrentScene] = useState(2);
   const changeScene = (scene: number) => {
     setCurrentScene(scene);
   };

@@ -25,9 +25,12 @@ function DragItem({ id, text, score }: Item) {
   return (
     <Draggable
       id={id}
-      className="border-2 border-primary rounded-lg p-2 bg-cover-dark text-white text-center w-[350px] h-[80px]"
+      className="flex items-center border-2 border-primary rounded-2xl p-2 bg-cover-dark text-white text-center w-[350px] h-[80px]"
     >
-      {text} score: {score}
+      <div className="shrink-0 w-[40px] h-[40px] rounded-[50%] bg-cover-primary mr-4 leading-[40px] text-center font-bold">
+        {score}
+      </div>
+      <p className="text-left">{text}</p>
     </Draggable>
   );
 }
@@ -35,17 +38,24 @@ function DropItem({ id, text, score }: Item) {
   return (
     <Draggable
       id={id}
-      className="border-2 border-role-ee rounded-lg p-2 bg-cover-dark text-white text-center w-full h-[80px]"
+      className="flex items-center border-2 border-role-ee rounded-2xl p-2 bg-cover-dark text-white text-center w-[350px] h-[80px]"
     >
-      {text} score: {score}
+      <div className="shrink-0 w-[40px] h-[40px] rounded-[50%] bg-cover-roleEE mr-4 leading-[40px] text-center font-bold">
+        {score}
+      </div>
+      <p className="text-left">{text}</p>
     </Draggable>
   );
 }
 const ITEMS = [
-  { id: "甲", text: "甲", score: 1 },
-  { id: "乙", text: "乙", score: 5 },
-  { id: "丙", text: "丙", score: 8 },
-  { id: "丁", text: "丁", score: 15 },
+  {
+    id: "1",
+    text: "後台職缺管理功能（資訊上架、下架、顯示應徵者資料）",
+    score: 8,
+  },
+  { id: "2", text: "應徵者的線上履歷編輯器", score: 5 },
+  { id: "3", text: "會員系統（登入、註冊、權限管理）", score: 13 },
+  { id: "4", text: "前台職缺列表、應徵", score: 8 },
 ];
 function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
@@ -96,7 +106,7 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
           >
             <SortableContext items={rightItems}>
               {rightItems.map((item) => (
-                <SortableItem key={item.id} id={item.id}>
+                <SortableItem key={item.id} id={item.id} useStyle={false}>
                   <DropItem key={item.id} {...item} />
                 </SortableItem>
               ))}
@@ -166,7 +176,7 @@ export default function ProductBacklog() {
   ];
   const router = useRouter();
   const [animationDone, setAnimationDone] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(2);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const renderContent = () => {
     switch (currentIndex) {
@@ -187,8 +197,9 @@ export default function ProductBacklog() {
         return <DragAndDrop onClick={setCurrentIndex} />;
       case 2:
         return (
-          <div className="flex-1 flex justify-center items-center p-10 bg-cover-dark font-bold">
-            點擊畫面任意處繼續
+          <div className="flex-1 text-center  w-full bg-linear-(--linear-cover) shadow-[0px_-10px_20px_rgba(10,13,20,0.20),0px_10px_10px_rgba(10,13,20,0.60)]">
+            <div className="h-[100px]" />
+            <Button.Secondary>點擊畫面任意處繼續</Button.Secondary>
           </div>
         );
       default:
@@ -199,6 +210,7 @@ export default function ProductBacklog() {
   const handleClick = useCallback(
     (e: MouseEvent) => {
       if (!animationDone) return;
+      console.log("go page");
       if (currentIndex >= LINES.length - 1) {
         router.push("/daily");
       }
@@ -222,10 +234,13 @@ export default function ProductBacklog() {
           textIntervalDelay={0.1}
           direction={DIRECTIONS.RIGHT}
           reverse
-          onAnimationDone={() => {}}
+          onAnimationDone={() => {
+            console.log("animation done");
+            setAnimationDone(true);
+          }}
           onFinish={() => {
             console.log("動畫結束");
-            setAnimationDone(true);
+            // setAnimationDone(true);
           }}
           currentIndex={currentIndex}
         />

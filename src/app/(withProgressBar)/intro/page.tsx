@@ -216,7 +216,7 @@ export default function IntroPage() {
   const handleClick = useCallback(() => {
     if (!animationDone || currentScene === 3) return;
     if (currentScene === 4) {
-      router.push("/sprint");
+      router.push("/planing");
       return;
     }
     setCurrentIndex((prev) => (prev >= TEXT.length - 1 ? prev : prev + 1));

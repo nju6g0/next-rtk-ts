@@ -50,7 +50,7 @@ const LINES = [
   "哼哼沒想到你這麼快就學會惹 ， 快結束了加油加油 ！",
 ];
 export default function Daily() {
-  const [currentIndex, setCurrentIndex] = useState(2);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [currentScene, setCurrentScene] = useState(0);
   const [animationDone, setAnimationDone] = useState(false);
   const [showList, setShowList] = useState(false);
@@ -84,116 +84,116 @@ export default function Daily() {
     switch (currentIndex) {
       case 1:
         return (
-          <div className="flex-1 flex items-center justify-center gap-5">
+          <div className="flex-1 flex justify-center gap-5 p-10">
             <div>
-              {/* <Image
+              <Image
                 src={dailyImage.src}
                 alt="clock"
                 width={dailyImage.width}
                 height={dailyImage.height}
-              /> */}
+              />
               <Board
                 title="每日站立會議"
                 subTitle="Daily Scrum"
                 role={ROLES.EE}
               />
               {showList && (
-                <ul className="list-disc pl-5 mt-2">
-                  <li className={`${styles.animaSlideDown}`}>昨天做了什麼？</li>
+                <ul className="list-disc pl-5 mt-6 text-xl leading-8">
+                  每天都要進行的會議 ， 以15分鐘為限制
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "0.5s" }}
                   >
-                    今天要做什麼？
+                    昨天為團隊的短衝目標 (Sprint Goal)做了那些進度
                   </li>
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "1s" }}
                   >
-                    有什麼阻礙嗎？
+                    今天我會如何準備來幫助團隊達到短衝目標
                   </li>
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "1.5s" }}
                   >
-                    其他需要討論的事項？
+                    今天我會如何準備來幫助團隊達到短衝目標
                   </li>
+                  <p
+                    className={`${styles.animaSlideDown}`}
+                    style={{ animationDelay: "2s" }}
+                  >
+                    透過團隊分享 ， 追蹤大家的工作狀況。
+                  </p>
                 </ul>
               )}
             </div>
             <div>
-              {/* <Image
+              <Image
                 src={reviewImage.src}
                 alt="clock"
                 width={reviewImage.width}
                 height={reviewImage.height}
-              /> */}
+              />
               <Board
                 title="短衝檢視會議"
                 subTitle="Sprint Review"
                 role={ROLES.EE}
               />
               {showList && (
-                <ul className="list-disc pl-5 mt-2">
-                  <li
-                    className={`${styles.animaSlideDown}`}
-                    style={{ animationDelay: "2s" }}
-                  >
-                    今天要做什麼？
-                  </li>
-                  <li
+                <ul className="list-disc pl-5 mt-6 text-xl leading-8">
+                  <p
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "2.5s" }}
                   >
-                    有什麼阻礙嗎？
-                  </li>
-                  <li
-                    className={`${styles.animaSlideDown}`}
-                    style={{ animationDelay: "3s" }}
-                  >
-                    其他需要討論的事項？
-                  </li>
+                    用來檢視該次短衝增量的成果 ， 以蒐集相關的回饋數據或意見 。
+                  </p>
                 </ul>
               )}
             </div>
             <div>
-              {/* <Image
+              <Image
                 src={retroImage.src}
                 alt="clock"
                 width={retroImage.width}
                 height={retroImage.height}
-              /> */}
+              />
               <Board
                 title="短衝自省會議"
                 subTitle="Sprint Retrospective"
                 role={ROLES.EE}
               />
               {showList && (
-                <ul className="list-disc pl-5 mt-2">
+                <ul className="list-disc pl-5 mt-6 text-xl leading-8">
+                  <p
+                    className={`${styles.animaSlideDown}`}
+                    style={{ animationDelay: "3s" }}
+                  >
+                    團隊在自省會議裡 , 會共同回顧該短衝歷程發生的事情
+                  </p>
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "3.5s" }}
                   >
-                    今天要做什麼？
+                    好的地方
                   </li>
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "4s" }}
                   >
-                    有什麼阻礙嗎？
+                    可以改進的地方
                   </li>
                   <li
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "4.5s" }}
                   >
-                    其他需要討論的事項？
+                    如何維持我們已有的成功經驗
                   </li>
-                  <li
+                  <p
                     className={`${styles.animaSlideDown}`}
                     style={{ animationDelay: "5s" }}
                   >
-                    昨天做了什麼？
-                  </li>
+                    優化工作流程、讓團隊有變得更好的機會。
+                  </p>
                 </ul>
               )}
             </div>

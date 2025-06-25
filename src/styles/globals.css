@@ -10,6 +10,8 @@
   --backgroundDark: #0a0d14;
   --coverGray: rgba(10, 13, 20, 0.6);
   --coverLight: rgba(28, 50, 69, 0.6);
+  --coverPrimary: rgba(0, 255, 244, 0.45);
+  --coverRoleEE: rgba(255, 199, 0, 0.6);
   --danger: #ff0000;
   --roleSm: #d355ff;
   --roleSmDark: #4c0071;
@@ -73,6 +75,8 @@
   --linear-role-ee: var(--linearRoleEE);
   --linear-cover: var(--linear-cover);
   --color-cover-dark: var(--coverGray);
+  --color-cover-primary: var(--coverPrimary);
+  --color-cover-roleEE: var(--coverRoleEE);
   --cover-light: var(--coverLight);
   --shadow-primary: 0 0 14px var(--primary);
   --shadow-role-ee: 0 0 14px var(--roleEE);
@@ -100,6 +104,6 @@ body {
   /* background-color: #333; */
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  /* background-image: url("../../public/bg_village.png"); */
+  background-image: url("../../public/bg_village.png");
   background-size: cover;
 }
