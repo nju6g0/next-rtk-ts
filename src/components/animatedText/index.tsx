@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import { RoleNameType, ROLES } from "../animatedRole";
 import styles from "./styles.module.scss";
 
 interface AnimatedTextProps {
@@ -9,6 +10,7 @@ interface AnimatedTextProps {
   intervalDelay?: number;
   className?: string;
   currentIndex: number;
+  roleName?: RoleNameType;
   onAnimationDone?: (index: number, text: string) => void; // 每段文字播放完畢後的回調
   onFinish?: () => void; // 完成全部文字後的回調
 }
@@ -19,6 +21,7 @@ export default function AnimatedText({
   intervalDelay = 0.05,
   className,
   currentIndex,
+  roleName = ROLES.PO,
   onAnimationDone,
   onFinish,
 }: AnimatedTextProps) {
@@ -62,7 +65,7 @@ export default function AnimatedText({
       {/* 右下角彈跳箭頭提示 */}
       {animationDone && currentIndex <= text.length - 1 && (
         <div
-          className={`absolute right-2 bottom-0 ${styles.triangle} ${styles.bounceIndicator}`}
+          className={`absolute right-2 bottom-0 ${styles[`triangle${roleName}`]} ${styles.bounceIndicator}`}
         />
       )}
     </div>

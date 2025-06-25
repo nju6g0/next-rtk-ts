@@ -70,6 +70,7 @@ export default function RoleWithDialog({
           text={text}
           initialDelay={textInitialDelay}
           intervalDelay={textIntervalDelay}
+          roleName={roleName}
           onAnimationDone={onAnimationDone}
           onFinish={onFinish}
           currentIndex={currentIndex}

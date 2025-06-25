@@ -15,16 +15,31 @@
   }
 }
 
-.triangle {
+%triangle {
   width: 0;
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
+}
+.trianglePO {
+  @extend %triangle;
   border-top: 20px solid var(--primary);
+}
+.triangleEE {
+  @extend %triangle;
+  border-top: 20px solid var(--color-role-ee);
+}
+.triangleGG {
+  @extend %triangle;
+  border-top: 20px solid var(--color-role-gg);
+}
+.triangleSM {
+  @extend %triangle;
+  border-top: 20px solid var(--color-role-sm);
 }
 .bounceIndicator {
   text-align: center;
-  animation: bounce 1s infinite;
+  animation: bounce 1s linear infinite;
   cursor: pointer;
   user-select: none;
 }
