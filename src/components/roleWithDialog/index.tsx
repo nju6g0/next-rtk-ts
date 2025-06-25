@@ -60,7 +60,7 @@ export default function RoleWithDialog({
       <div
         className={`md:w-1/6 w-1/4 shrink-0 ${reverse && "rotate-180"} ${direction === DIRECTIONS[RIGHT] ? "ml-5" : "mr-5"}`}
       >
-        <Role roleName={roleName} withAnimation={withAnimation} />
+        {/* <Role roleName={roleName} withAnimation={withAnimation} /> */}
       </div>
       <div
         className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]} ${roleShadow[roleName]} bg-(--cover-dark)`}

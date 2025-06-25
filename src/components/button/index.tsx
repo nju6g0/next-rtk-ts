@@ -67,7 +67,7 @@ function BaseButton({
 
   const handleclick = () => {
     if (disabled || loading) return;
-    onClick();
+    if (onClick) onClick();
   };
 
   return (

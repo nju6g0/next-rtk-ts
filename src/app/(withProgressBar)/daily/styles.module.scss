@@ -1,0 +1,46 @@
+.animaSlideDown {
+  animation: slideRight 0.5s ease-out forwards;
+  opacity: 0;
+}
+@keyframes slideRight {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0); /* 滑進到原本位置 */
+    opacity: 1;
+  }
+}
+
+@mixin twig($top, $left, $transform) {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 5px;
+    background-color: var(--color-primary);
+    top: $top;
+    left: $left;
+    transform: $transform;
+    transform-origin: top;
+  }
+}
+.twigLeft {
+  @include twig(50%, -20px, translateY(-50%));
+}
+.twigBottom {
+  @include twig(100%, 50%, translateX(-50%));
+  &::after {
+    width: 5px;
+    height: 40px;
+  }
+}
+.twigTop {
+  @include twig(-40px, 50%, translateX(-50%));
+  &::after {
+    width: 5px;
+    height: 40px;
+  }
+}
