@@ -13,6 +13,12 @@ const roleBorderColors = {
   [ROLES.PO]: "border-primary",
   [ROLES.SM]: "border-role-sm",
 };
+const roleShadow = {
+  [ROLES.EE]: "shadow-(--shadow-role-ee)",
+  [ROLES.GG]: "shadow-(--shadow-role-gg)",
+  [ROLES.PO]: "shadow-(--shadow-primary)",
+  [ROLES.SM]: "shadow-(--shadow-role-sm)",
+};
 
 const LEFT = "LEFT";
 const RIGHT = "RIGHT";
@@ -57,7 +63,7 @@ export default function RoleWithDialog({
         <Role roleName={roleName} withAnimation={withAnimation} />
       </div>
       <div
-        className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]} shadow-(--shadow-primary) bg-(--cover-dark)`}
+        className={`relative grow py-2 px-3 md:pt-5 md:pb-8 md:pl-20 md:pr-12 border rounded-2xl ${roleBorderColors[roleName]} ${roleShadow[roleName]} bg-(--cover-dark)`}
       >
         <AnimatedText
           className="text-2xl"

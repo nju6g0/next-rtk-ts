@@ -120,7 +120,6 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
   );
 
   function handleDragStart(event: any) {
-    console.log(event);
     const item = [...leftItems, ...rightItems].find(
       (i) => i.id === event.active.id
     );
@@ -167,7 +166,7 @@ export default function ProductBacklog() {
   ];
   const router = useRouter();
   const [animationDone, setAnimationDone] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(1);
+  const [currentIndex, setCurrentIndex] = useState(2);
 
   const renderContent = () => {
     switch (currentIndex) {
@@ -180,7 +179,7 @@ export default function ProductBacklog() {
                 setCurrentIndex(1);
               }}
             >
-              開始練習
+              開始 Sprint
             </Button.Primary>
           </div>
         );
@@ -188,7 +187,7 @@ export default function ProductBacklog() {
         return <DragAndDrop onClick={setCurrentIndex} />;
       case 2:
         return (
-          <div className="flex-1 flex justify-center items-center p-10">
+          <div className="flex-1 flex justify-center items-center p-10 bg-cover-dark font-bold">
             點擊畫面任意處繼續
           </div>
         );
@@ -215,7 +214,7 @@ export default function ProductBacklog() {
 
   return (
     <div className="flex flex-col h-screen">
-      {/* <div className="flex items-start p-10">
+      <div className="flex items-start p-10">
         <RoleWithDialog
           roleName={ROLES.GG}
           text={LINES}
@@ -223,8 +222,7 @@ export default function ProductBacklog() {
           textIntervalDelay={0.1}
           direction={DIRECTIONS.RIGHT}
           reverse
-          onAnimationDone={() => {
-          }}
+          onAnimationDone={() => {}}
           onFinish={() => {
             console.log("動畫結束");
             setAnimationDone(true);
@@ -236,7 +234,7 @@ export default function ProductBacklog() {
             <Role roleName={ROLES.EE} />
           </div>
         )}
-      </div> */}
+      </div>
       {renderContent()}
     </div>
   );

@@ -75,6 +75,9 @@
   --color-cover-dark: var(--coverGray);
   --cover-light: var(--coverLight);
   --shadow-primary: 0 0 14px var(--primary);
+  --shadow-role-ee: 0 0 14px var(--roleEE);
+  --shadow-role-gg: 0 0 14px var(--roleGG);
+  --shadow-role-sm: 0 0 14px var(--roleSm);
 }
 
 @theme inline {
