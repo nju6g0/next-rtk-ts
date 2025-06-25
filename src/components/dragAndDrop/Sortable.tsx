@@ -13,8 +13,8 @@ export function SortableItem(props: SortableProps) {
     useSortable({ id });
 
   const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
+    // transform: CSS.Transform.toString(transform),
+    // transition,
   };
 
   return (

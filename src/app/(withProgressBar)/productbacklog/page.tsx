@@ -7,6 +7,7 @@ import {
   TouchSensor,
   useSensor,
   useSensors,
+  DragOverlay,
 } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 
@@ -24,7 +25,7 @@ function DragItem({ id, text, score }: Item) {
   return (
     <Draggable
       id={id}
-      className="border-2 border-primary rounded-lg p-2 bg-cover-dark text-white text-center"
+      className="border-2 border-primary rounded-lg p-2 bg-cover-dark text-white text-center w-[350px] h-[80px]"
     >
       {text} score: {score}
     </Draggable>
@@ -34,7 +35,7 @@ function DropItem({ id, text, score }: Item) {
   return (
     <Draggable
       id={id}
-      className="border-2 border-role-ee rounded-lg p-2 bg-cover-dark text-white text-center w-full"
+      className="border-2 border-role-ee rounded-lg p-2 bg-cover-dark text-white text-center w-full h-[80px]"
     >
       {text} score: {score}
     </Draggable>
@@ -50,11 +51,17 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [leftItems, setLeftItems] = useState(ITEMS);
   const [rightItems, setRightItems] = useState<Item[]>([]);
+  const [draggingItem, setDraggingItem] = useState<Item | null>(null);
 
   const totalScore = rightItems.reduce((acc, item) => acc + item.score, 0);
   const isComplete = totalScore <= 20 && totalScore > 0;
+
   return (
-    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <div className="flex items-end gap-10 p-10">
         <div className="w-[400px] flex flex-col border-2 border-primary rounded-4xl overflow-hidden shadow-[10px_10px_0_rgba(0,255,244,0.5),20px_20px_0_rgba(0,255,244,0.2)] h-[500px]">
           <div className="bg-primary">
@@ -67,7 +74,7 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
           </div>
           <Droppable
             id="leftArea"
-            className="flex-1 flex flex-col border border-primary h-[500px] p-5 bg-(image:--linear-primary)"
+            className="flex-1 flex flex-col gap-2 border border-primary h-[500px] p-5 bg-(image:--linear-primary)"
           >
             {leftItems.map((item) => (
               <DragItem key={item.id} {...item} />
@@ -85,7 +92,7 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
           </div>
           <Droppable
             id="rightArea"
-            className="flex-1 flex flex-col border border-role-ee h-[500px] p-5 bg-(image:--linear-role-ee)"
+            className="flex-1 flex flex-col gap-2 border border-role-ee h-[500px] p-5 bg-(image:--linear-role-ee)"
           >
             <SortableContext items={rightItems}>
               {rightItems.map((item) => (
@@ -95,6 +102,9 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
               ))}
             </SortableContext>
           </Droppable>
+          <DragOverlay>
+            {draggingItem ? <DragItem {...draggingItem} /> : null}
+          </DragOverlay>
         </div>
         <Button.Primary
           type={BUTTON_TYPES.BUTTON}
@@ -109,7 +119,15 @@ function DragAndDrop({ onClick }: { onClick: (index: number) => void }) {
     </DndContext>
   );
 
+  function handleDragStart(event: any) {
+    console.log(event);
+    const item = [...leftItems, ...rightItems].find(
+      (i) => i.id === event.active.id
+    );
+    if (item) setDraggingItem(item);
+  }
   function handleDragEnd(event: any) {
+    setDraggingItem(null);
     const { over, active } = event;
 
     const item = ITEMS.find((item) => item.id === active.id)!;
