@@ -1,9 +1,18 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
+import {
+  DndContext,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
 
 import Role, { ROLES, RoleNameType } from "@/components/animatedRole";
 import RoleWithDialog, { DIRECTIONS } from "@/components/roleWithDialog";
+import { Draggable, Droppable } from "@/components/dragAndDrop";
+import Button, { BUTTON_SIZES, BUTTON_TYPES } from "@/components/button";
 import dailyImage from "../../../../public/daily/sprint_daily.png";
 import reviewImage from "../../../../public/daily/sprint_review.png";
 import retroImage from "../../../../public/daily/sprint_retro.png";
@@ -43,29 +52,172 @@ const DropItem = ({ classNames }: { classNames: string }) => (
     className={`border-2 border-dashed border-primary w-[260px] h-[80px] rounded-2xl ${classNames}`}
   />
 );
+const DAILY = "daily";
+const REVIEW = "review";
+const RETRO = "retro";
+const DRAG_ITEMS = {
+  [DAILY]: { id: DAILY, title: "每日站立會議", subTitle: "Daily Scrum" },
+  [REVIEW]: { id: REVIEW, title: "短衝檢視會議", subTitle: "Sprint Review" },
+  [RETRO]: {
+    id: RETRO,
+    title: "短衝自省會議",
+    subTitle: "Sprint Retrospective",
+  },
+};
+type DropType = typeof DAILY | typeof REVIEW | typeof RETRO;
+type DropState = {
+  [key in DropType]: DropType | null;
+};
+const dropIds: DropType[] = [DAILY, REVIEW, RETRO];
+
+function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
+  const [dragItems, setDragItems] = useState<DropType[]>([
+    DAILY,
+    REVIEW,
+    RETRO,
+  ]);
+  const [dropItems, setDropItems] = useState<DropState>({
+    [DAILY]: null,
+    [REVIEW]: null,
+    [RETRO]: null,
+  });
+
+  const getItem = (id: DropType) => {
+    return DRAG_ITEMS[id];
+  };
+  useEffect(() => {
+    const isKeyEqualToValue = Object.entries(dropItems).every(
+      ([key, value]) => key === value
+    );
+    setPass(isKeyEqualToValue);
+  }, [dropItems]);
+
+  return (
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <div
+        className={`flex gap-5 bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[${processImage.height}px]`}
+        style={
+          {
+            // backgroundImage: `url("${processImage.src}")`,
+          }
+        }
+      >
+        <div className="flex flex-col justify-start gap-5 pl-[34px] border-1 border-primary">
+          <div className="h-[150px]" />
+          <Board
+            title="產品待辦清單"
+            subTitle="Product Backlog"
+            classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
+          />
+          <Board
+            title="短衝規劃會議"
+            subTitle="Sprint Planning"
+            classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
+          />
+          <Board
+            title="短衝待辦清單"
+            subTitle="Sprint Backlog"
+            classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
+          />
+          <Board
+            title="短衝"
+            subTitle="Sprint"
+            classNames={`w-[120px] h-[80px] ${styles.twigTop}`}
+          />
+        </div>
+        <div className="flex-1 border-1 border-role-ee">
+          {dropIds.map((id) => (
+            <Droppable key={id} id={id} className="inline-block">
+              {dropItems[id] ? (
+                <Draggable id={getItem(dropItems[id]).id}>
+                  <Board
+                    title={getItem(dropItems[id]).title}
+                    subTitle={getItem(dropItems[id]).subTitle}
+                    role={
+                      id === getItem(dropItems[id]).id ? ROLES.EE : ROLES.GG
+                    }
+                    classNames="w-[260px] h-[80px]"
+                  />
+                </Draggable>
+              ) : (
+                <DropItem classNames={styles.twigLeft} />
+              )}
+            </Droppable>
+          ))}
+        </div>
+        <div className="flex flex-col gap-4 sborder-1 border-role-gg">
+          <Droppable id="list" className="h-full border-1 border-primary">
+            {dragItems.map((item) => (
+              <Draggable key={getItem(item).id} id={getItem(item).id}>
+                <Board
+                  title={getItem(item).title}
+                  subTitle={getItem(item).subTitle}
+                  role={ROLES.EE}
+                  classNames="w-[260px] h-[80px]"
+                />
+              </Draggable>
+            ))}
+          </Droppable>
+        </div>
+      </div>
+    </DndContext>
+  );
+  function handleDragEnd(event: any) {
+    const { over, active } = event;
+    const entry = Object.entries(dropItems).find(
+      ([_, value]) => value === active.id
+    );
+    if (dropIds.includes(over.id)) {
+      setDropItems((prev) =>
+        entry
+          ? { ...prev, [over.id]: active.id, [entry[0]]: null }
+          : { ...prev, [over.id]: active.id }
+      );
+      setDragItems((prev) => {
+        const key = over.id as DropType;
+        const item = dropItems[key];
+        const newDragItems = prev.filter((item) => item !== active.id);
+        if (item) {
+          newDragItems.push(item);
+        }
+        return newDragItems;
+      });
+      return;
+    }
+    if (over.id === "list") {
+      if (!dragItems.includes(active.id)) {
+        setDragItems((prev) => [...prev, active.id]);
+      }
+      if (entry) {
+        setDropItems((prev) => ({ ...prev, [entry[0]]: null }));
+      }
+      return;
+    }
+  }
+}
 const LINES = [
   "等等等等等 ， 你都還不知道什麼是 Sprint 吧 ！ 讓我先為你介紹一下～仔細聽好唷 ， 等等會考考你 ！",
   "Sprint 是一個短衝 ， 開發團隊會在這期間執行開發 。 在這段期間內 ， 開發團隊舉辦每日站立會議 (Daily Scrum) ， 追蹤成員間的工作狀況 ， 在 Sprint 的結束也會包含短衝檢視會議 (Sprint Review) 以及短衝自省會議 (Sprint Retrospective)",
-  "換你來試試看吧 ！ 在這經典的 Surum 流程圖中 ， 這些流程分別代表哪一個會議呢 ？(點擊畫面任意處繼續)",
+  "換你來試試看吧 ！ 在這經典的 Surum 流程圖中 ， 這些流程分別代表哪一個會議呢 ？",
   "哼哼沒想到你這麼快就學會惹 ， 快結束了加油加油 ！",
 ];
 export default function Daily() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentScene, setCurrentScene] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(2);
   const [animationDone, setAnimationDone] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [pass, setPass] = useState(false);
 
   const handleAnimationDone = () => {
     setAnimationDone(true);
     if (currentIndex === 1) {
       setShowList(true);
     }
-    // setCurrentScene((prevScene) => prevScene + 1);
   };
 
   const handleClick = useCallback(() => {
     if (!animationDone) return;
-
+    if (currentIndex === 2 && !pass) return;
     setCurrentIndex((prevIndex) => {
       if (prevIndex >= LINES.length - 1) {
         return prevIndex;
@@ -73,7 +225,7 @@ export default function Daily() {
       return prevIndex + 1;
     });
     setAnimationDone(false);
-  }, [animationDone]);
+  }, [animationDone, pass, currentIndex]);
 
   useEffect(() => {
     window.addEventListener("click", handleClick);
@@ -84,7 +236,7 @@ export default function Daily() {
     switch (currentIndex) {
       case 1:
         return (
-          <div className="flex-1 flex justify-center gap-5 p-10">
+          <div className="flex justify-center gap-5 p-10">
             <div>
               <Image
                 src={dailyImage.src}
@@ -200,63 +352,7 @@ export default function Daily() {
           </div>
         );
       case 2:
-        return (
-          <div
-            className={`flex-1 flex gap-5 bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[${processImage.height}px]`}
-            style={{
-              backgroundImage: `url("${processImage.src}")`,
-            }}
-          >
-            <div className="flex flex-col justify-start gap-5 pl-[34px] border-1 border-primary">
-              <div className="h-[150px]" />
-              <Board
-                title="產品待辦清單"
-                subTitle="Product Backlog"
-                classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
-              />
-              <Board
-                title="短衝規劃會議"
-                subTitle="Sprint Planning"
-                classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
-              />
-              <Board
-                title="短衝待辦清單"
-                subTitle="Sprint Backlog"
-                classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
-              />
-              <Board
-                title="短衝"
-                subTitle="Sprint"
-                classNames={`w-[120px] h-[80px] ${styles.twigTop}`}
-              />
-            </div>
-            <div className="flex-1 border-1 border-role-ee">
-              <DropItem classNames={styles.twigLeft} />
-              <DropItem classNames={styles.twigBottom} />
-              <DropItem classNames={styles.twigBottom} />
-            </div>
-            <div className="border-1 border-role-gg">
-              <Board
-                title="每日站立會議"
-                subTitle="Daily Scrum"
-                role={ROLES.EE}
-                classNames="w-[260px] h-[80px]"
-              />
-              <Board
-                title="短衝檢視會議"
-                subTitle="Sprint Review"
-                role={ROLES.EE}
-                classNames="w-[260px] h-[80px]"
-              />
-              <Board
-                title="短衝自省會議"
-                subTitle="Sprint Retrospective"
-                role={ROLES.EE}
-                classNames="w-[260px] h-[80px]"
-              />
-            </div>
-          </div>
-        );
+        return <DNDScene setPass={setPass} />;
       case 0:
       default:
         return null;
@@ -264,7 +360,7 @@ export default function Daily() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex-1 flex flex-col">
       <RoleWithDialog
         roleName={ROLES.EE}
         text={LINES}
@@ -276,7 +372,17 @@ export default function Daily() {
         onFinish={() => {}}
         currentIndex={currentIndex}
       />
-      {renderScene()}
+      <div className="flex-1 flex items-end gap-4">
+        {renderScene()}
+        <Button.Primary
+          type={BUTTON_TYPES.BUTTON}
+          onClick={() => {}}
+          disabled={!pass}
+          className="shrink-0"
+        >
+          我完成了
+        </Button.Primary>
+      </div>
     </div>
   );
 }

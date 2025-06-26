@@ -18,14 +18,14 @@ export function Draggable(props: DraggableProps) {
     : undefined;
 
   return (
-    <button
+    <div
       ref={setNodeRef}
-      className={className}
+      className={`cursor-pointer ${className}`}
       style={style}
       {...listeners}
       {...attributes}
     >
       {children}
-    </button>
+    </div>
   );
 }
