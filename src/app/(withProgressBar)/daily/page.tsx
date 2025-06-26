@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {
   DndContext,
@@ -70,7 +71,7 @@ type DropState = {
 };
 const dropIds: DropType[] = [DAILY, REVIEW, RETRO];
 
-function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
+function DNDScene({ changeScene }: { changeScene: () => void }) {
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
   const [dragItems, setDragItems] = useState<DropType[]>([
     DAILY,
@@ -82,6 +83,7 @@ function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
     [REVIEW]: null,
     [RETRO]: null,
   });
+  const [pass, setPass] = useState(false);
 
   const getItem = (id: DropType) => {
     return DRAG_ITEMS[id];
@@ -96,7 +98,7 @@ function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div
-        className={`flex gap-5 bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[${processImage.height}px]`}
+        className={`flex-1 flex gap-5 bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[${processImage.height}px]`}
         style={
           {
             // backgroundImage: `url("${processImage.src}")`,
@@ -137,7 +139,7 @@ function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
                     role={
                       id === getItem(dropItems[id]).id ? ROLES.EE : ROLES.GG
                     }
-                    classNames="w-[260px] h-[80px]"
+                    classNames={`w-[260px] h-[80px] ${styles.twigBottom}`}
                   />
                 </Draggable>
               ) : (
@@ -159,6 +161,16 @@ function DNDScene({ setPass }: { setPass: (pass: boolean) => void }) {
               </Draggable>
             ))}
           </Droppable>
+        </div>
+        <div>
+          <Button.Primary
+            type={BUTTON_TYPES.BUTTON}
+            onClick={changeScene}
+            disabled={!pass}
+            className="shrink-0"
+          >
+            我完成了
+          </Button.Primary>
         </div>
       </div>
     </DndContext>
@@ -203,10 +215,10 @@ const LINES = [
   "哼哼沒想到你這麼快就學會惹 ， 快結束了加油加油 ！",
 ];
 export default function Daily() {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(2);
   const [animationDone, setAnimationDone] = useState(false);
   const [showList, setShowList] = useState(false);
-  const [pass, setPass] = useState(false);
 
   const handleAnimationDone = () => {
     setAnimationDone(true);
@@ -214,10 +226,18 @@ export default function Daily() {
       setShowList(true);
     }
   };
+  const goNextScene = () => {
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setAnimationDone(false);
+  };
 
   const handleClick = useCallback(() => {
-    if (!animationDone) return;
-    if (currentIndex === 2 && !pass) return;
+    if (!animationDone || currentIndex === 2) return;
+    if (currentIndex >= LINES.length - 1) {
+      router.push("/retro");
+      return;
+    }
+
     setCurrentIndex((prevIndex) => {
       if (prevIndex >= LINES.length - 1) {
         return prevIndex;
@@ -225,7 +245,7 @@ export default function Daily() {
       return prevIndex + 1;
     });
     setAnimationDone(false);
-  }, [animationDone, pass, currentIndex]);
+  }, [animationDone, currentIndex]);
 
   useEffect(() => {
     window.addEventListener("click", handleClick);
@@ -236,7 +256,7 @@ export default function Daily() {
     switch (currentIndex) {
       case 1:
         return (
-          <div className="flex justify-center gap-5 p-10">
+          <div className="flex-1 flex justify-center gap-5 p-10">
             <div>
               <Image
                 src={dailyImage.src}
@@ -352,7 +372,14 @@ export default function Daily() {
           </div>
         );
       case 2:
-        return <DNDScene setPass={setPass} />;
+        return <DNDScene changeScene={goNextScene} />;
+      case 3:
+        return (
+          <div className="flex-1 text-center  w-full h-full bg-linear-(--linear-cover) shadow-[0px_-10px_20px_rgba(10,13,20,0.20),0px_10px_10px_rgba(10,13,20,0.60)]">
+            <div className="h-[100px]" />
+            <Button.Secondary>點擊畫面任意處繼續</Button.Secondary>
+          </div>
+        );
       case 0:
       default:
         return null;
@@ -360,7 +387,7 @@ export default function Daily() {
   };
 
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="flex-1 flex flex-col gap-5">
       <RoleWithDialog
         roleName={ROLES.EE}
         text={LINES}
@@ -372,17 +399,7 @@ export default function Daily() {
         onFinish={() => {}}
         currentIndex={currentIndex}
       />
-      <div className="flex-1 flex items-end gap-4">
-        {renderScene()}
-        <Button.Primary
-          type={BUTTON_TYPES.BUTTON}
-          onClick={() => {}}
-          disabled={!pass}
-          className="shrink-0"
-        >
-          我完成了
-        </Button.Primary>
-      </div>
+      {renderScene()}
     </div>
   );
 }
