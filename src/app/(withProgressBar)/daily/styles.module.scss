@@ -44,3 +44,21 @@
     height: 40px;
   }
 }
+.sprint {
+  // position: absolute;
+  // right: 0;
+  // bottom: 100px;
+}
+.dropzone {
+  position: relative;
+  // height: 850px;
+  > div {
+    position: absolute;
+  }
+  > .daily {
+  }
+  > .review {
+  }
+  > .retro {
+  }
+}

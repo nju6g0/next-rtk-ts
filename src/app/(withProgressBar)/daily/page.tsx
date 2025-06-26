@@ -48,9 +48,9 @@ const Board = ({
     </div>
   );
 };
-const DropItem = ({ classNames }: { classNames: string }) => (
+const DropItem = ({ classNames }: { classNames?: string }) => (
   <div
-    className={`border-2 border-dashed border-primary w-[260px] h-[80px] rounded-2xl ${classNames}`}
+    className={`border-3 border-dashed border-primary w-[260px] h-[80px] rounded-2xl ${classNames}`}
   />
 );
 const DAILY = "daily";
@@ -98,14 +98,12 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div
-        className={`flex-1 flex gap-5 bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[${processImage.height}px]`}
-        style={
-          {
-            // backgroundImage: `url("${processImage.src}")`,
-          }
-        }
+        className={`bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[935px]`}
+        style={{
+          backgroundImage: `url("${processImage.src}")`,
+        }}
       >
-        <div className="flex flex-col justify-start gap-5 pl-[34px] border-1 border-primary">
+        <div className="inline-block pl-[34px] w-[400px] relative h-full border-1 border-primary">
           <div className="h-[150px]" />
           <Board
             title="產品待辦清單"
@@ -115,22 +113,28 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
           <Board
             title="短衝規劃會議"
             subTitle="Sprint Planning"
-            classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
+            classNames={`w-[260px] h-[80px] mt-5 ${styles.twigLeft}`}
           />
           <Board
             title="短衝待辦清單"
             subTitle="Sprint Backlog"
-            classNames={`w-[260px] h-[80px] ${styles.twigLeft}`}
+            classNames={`w-[260px] h-[80px] mt-5 ${styles.twigLeft}`}
           />
           <Board
             title="短衝"
             subTitle="Sprint"
-            classNames={`w-[120px] h-[80px] ${styles.twigTop}`}
+            classNames={`w-[120px] h-[80px] ${styles.twigTop} ${styles.sprint}`}
           />
         </div>
-        <div className="flex-1 border-1 border-role-ee">
-          {dropIds.map((id) => (
-            <Droppable key={id} id={id} className="inline-block">
+        <div
+          className={`inline-block w-[600px] ${styles.dropzone} h-full border-1 border-role-ee`}
+        >
+          {dropIds.map((id, idx) => (
+            <Droppable
+              key={id}
+              id={id}
+              className={`inline-block ${styles[id]} ${idx === 0 ? styles.twigLeft : styles.twigBottom}`}
+            >
               {dropItems[id] ? (
                 <Draggable id={getItem(dropItems[id]).id}>
                   <Board
@@ -139,39 +143,39 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
                     role={
                       id === getItem(dropItems[id]).id ? ROLES.EE : ROLES.GG
                     }
-                    classNames={`w-[260px] h-[80px] ${styles.twigBottom}`}
+                    classNames="w-[260px] h-[80px]"
                   />
                 </Draggable>
               ) : (
-                <DropItem classNames={styles.twigLeft} />
+                <DropItem />
               )}
             </Droppable>
           ))}
         </div>
-        <div className="flex flex-col gap-4 sborder-1 border-role-gg">
-          <Droppable id="list" className="h-full border-1 border-primary">
-            {dragItems.map((item) => (
-              <Draggable key={getItem(item).id} id={getItem(item).id}>
-                <Board
-                  title={getItem(item).title}
-                  subTitle={getItem(item).subTitle}
-                  role={ROLES.EE}
-                  classNames="w-[260px] h-[80px]"
-                />
-              </Draggable>
-            ))}
-          </Droppable>
-        </div>
-        <div>
-          <Button.Primary
-            type={BUTTON_TYPES.BUTTON}
-            onClick={changeScene}
-            disabled={!pass}
-            className="shrink-0"
-          >
-            我完成了
-          </Button.Primary>
-        </div>
+        <Droppable
+          id="list"
+          className="inline-block w-[200px] border-1 border-role-gg text-role-ee"
+        >
+          <div className="h-[200px]" />
+          {dragItems.map((item) => (
+            <Draggable key={getItem(item).id} id={getItem(item).id}>
+              <Board
+                title={getItem(item).title}
+                subTitle={getItem(item).subTitle}
+                role={ROLES.EE}
+                classNames="w-[260px] h-[80px] mt-5"
+              />
+            </Draggable>
+          ))}
+        </Droppable>
+        <Button.Primary
+          type={BUTTON_TYPES.BUTTON}
+          onClick={changeScene}
+          disabled={!pass}
+          className="absolute bottom-30 right-0"
+        >
+          我完成了
+        </Button.Primary>
       </div>
     </DndContext>
   );
