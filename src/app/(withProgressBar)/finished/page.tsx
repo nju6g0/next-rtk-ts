@@ -1,7 +1,11 @@
 "use client";
-import Role, { ROLES } from "@/components/animatedRole";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
+import Role, { ROLES } from "@/components/animatedRole";
+import logo from "../../../../public/logo_txt.png";
 import styles from "./styles.module.scss";
+import { use } from "react";
 
 const ROLE_SCRIPT = [
   { roleName: ROLES.GG, script: "窩的冰淇淋ㄋ？", color: "role-gg" },
@@ -10,18 +14,29 @@ const ROLE_SCRIPT = [
   { roleName: ROLES.PO, script: "哇喔太厲害ㄌㄅ", color: "primary" },
 ];
 export default function FinishedPage() {
+  const router = useRouter();
+  const handleReStart = () => {
+    router.push("/");
+  };
   return (
-    <div className="flex-1 flex flex-col items-center justify-center">
-      {/* <h1 className="text-4xl font-bold mb-4">結束頁面</h1>
-      <p className="text-lg mb-8">感謝您的參與！</p>
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <p className="text-center text-gray-600">
-          您已經完成了所有的任務，期待下次再見！
-        </p>
-      </div> */}
+    <div className="flex-1 flex flex-col gap-5 items-center justify-center">
       {Array.from({ length: 10 }, (_, i) => (
         <div key={i} className={styles[`star${i + 1}`]}></div>
       ))}
+      <Image
+        src={logo.src}
+        // className="m-auto"
+        alt="logo"
+        width={logo.width}
+        height={logo.height}
+      />
+      <p className="text-3xl font-bold">恭喜你通過</p>
+      <h3 className="text-primary text-3xl font-bold border-3 leading-24 w-[600px] text-center rounded-4xl shadow-(--shadow-primary)">
+        《 敏捷任務 - 最初の試煉 》
+      </h3>
+      <span className="text-primary" onClick={handleReStart}>
+        再玩一次
+      </span>
       <div className="flex gap-4">
         {ROLE_SCRIPT.map((role, index) => (
           <div
