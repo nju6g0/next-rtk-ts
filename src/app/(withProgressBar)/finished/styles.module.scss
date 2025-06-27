@@ -1,0 +1,54 @@
+%star {
+  position: absolute;
+  animation: twinkle 2s infinite both;
+}
+@mixin star($w, $color) {
+  width: $w;
+  height: $w;
+  border-radius: 50%;
+  background: radial-gradient(white 10%, $color 20%, transparent 100%);
+  box-shadow: 0 0 20px $color;
+}
+@for $i from 1 through 10 {
+  .star#{$i} {
+    @extend %star;
+    $positionX: random() * 80%;
+    $positionY: random() * 80%;
+    top: $positionY;
+    left: $positionX;
+    animation-delay: $i * -0.1s;
+    $remainder: $i % 4;
+    @if $remainder == 0 {
+      @include star(30px, var(--color-primary));
+    } @else if $remainder == 1 {
+      @include star(30px, var(--color-role-sm));
+    } @else if $remainder == 2 {
+      @include star(30px, var(--color-role-ee));
+    } @else if $remainder == 3 {
+      @include star(30px, var(--color-role-gg));
+    }
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+}
+
+.role {
+  > p {
+    visibility: hidden;
+  }
+  &:hover {
+    > div {
+      transform: scale(1.02) rotate(5deg);
+    }
+    > p {
+      visibility: visible;
+    }
+  }
+}
