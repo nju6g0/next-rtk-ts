@@ -15,6 +15,7 @@
 
 @mixin twig($top, $left, $transform) {
   position: relative;
+  display: inline-block;
   &::after {
     content: "";
     position: absolute;
@@ -45,20 +46,25 @@
   }
 }
 .sprint {
-  // position: absolute;
-  // right: 0;
-  // bottom: 100px;
+  position: absolute;
+  right: 0;
+  bottom: 260px;
 }
 .dropzone {
   position: relative;
-  // height: 850px;
   > div {
     position: absolute;
   }
   > .daily {
+    top: 480px;
+    left: 185px;
   }
   > .review {
+    bottom: 100px;
+    left: 100px;
   }
   > .retro {
+    bottom: 100px;
+    right: 0;
   }
 }

@@ -199,7 +199,7 @@ export default function ProductBacklog() {
         return (
           <div className="flex-1 text-center  w-full bg-linear-(--linear-cover) shadow-[0px_-10px_20px_rgba(10,13,20,0.20),0px_10px_10px_rgba(10,13,20,0.60)]">
             <div className="h-[100px]" />
-            <Button.Secondary>點擊畫面任意處繼續</Button.Secondary>
+            <Button.Fake>點擊畫面任意處繼續</Button.Fake>
           </div>
         );
       default:

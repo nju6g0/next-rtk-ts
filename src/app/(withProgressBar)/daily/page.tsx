@@ -98,12 +98,12 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
   return (
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div
-        className={`bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[935px]`}
+        className={`flex bg-contain bg-center bg-no-repeat w-[${processImage.width}px] h-[900px]`}
         style={{
           backgroundImage: `url("${processImage.src}")`,
         }}
       >
-        <div className="inline-block pl-[34px] w-[400px] relative h-full border-1 border-primary">
+        <div className="shrink-0 relative pl-[34px] w-[400px] h-full border-1 border-primary">
           <div className="h-[150px]" />
           <Board
             title="產品待辦清單"
@@ -127,13 +127,13 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
           />
         </div>
         <div
-          className={`inline-block w-[600px] ${styles.dropzone} h-full border-1 border-role-ee`}
+          className={`shrink-0 w-[640px] ${styles.dropzone} h-full border-1 border-role-ee`}
         >
           {dropIds.map((id, idx) => (
             <Droppable
               key={id}
               id={id}
-              className={`inline-block ${styles[id]} ${idx === 0 ? styles.twigLeft : styles.twigBottom}`}
+              className={`${styles[id]} ${idx === 0 ? styles.twigLeft : styles.twigBottom}`}
             >
               {dropItems[id] ? (
                 <Draggable id={getItem(dropItems[id]).id}>
@@ -154,7 +154,7 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
         </div>
         <Droppable
           id="list"
-          className="inline-block w-[200px] border-1 border-role-gg text-role-ee"
+          className="shrink-0 w-[240px] h-full border-1 border-role-gg text-role-ee"
         >
           <div className="h-[200px]" />
           {dragItems.map((item) => (
@@ -172,7 +172,7 @@ function DNDScene({ changeScene }: { changeScene: () => void }) {
           type={BUTTON_TYPES.BUTTON}
           onClick={changeScene}
           disabled={!pass}
-          className="absolute bottom-30 right-0"
+          className="absolute bottom-40 right-0"
         >
           我完成了
         </Button.Primary>
@@ -220,7 +220,7 @@ const LINES = [
 ];
 export default function Daily() {
   const router = useRouter();
-  const [currentIndex, setCurrentIndex] = useState(2);
+  const [currentIndex, setCurrentIndex] = useState(3);
   const [animationDone, setAnimationDone] = useState(false);
   const [showList, setShowList] = useState(false);
 
@@ -381,7 +381,7 @@ export default function Daily() {
         return (
           <div className="flex-1 text-center  w-full h-full bg-linear-(--linear-cover) shadow-[0px_-10px_20px_rgba(10,13,20,0.20),0px_10px_10px_rgba(10,13,20,0.60)]">
             <div className="h-[100px]" />
-            <Button.Secondary>點擊畫面任意處繼續</Button.Secondary>
+            <Button.Fake>點擊畫面任意處繼續</Button.Fake>
           </div>
         );
       case 0:

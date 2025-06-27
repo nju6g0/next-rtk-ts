@@ -133,5 +133,17 @@ Button.Primary = (props: ButtonProps) => (
 Button.Secondary = (props: ButtonProps) => (
   <BaseButton {...props} variant={BUTTON_VARIANTS.SECONDARY} />
 );
+Button.Fake = ({ children }: { children: any }) => (
+  <div className="inline-block box-border font-bold border border-primary text-primary px-8 py-3 text-md rounded-[40px]">
+    {children}
+  </div>
+);
+Button.Radio = ({ checked }: { checked: boolean }) => (
+  <div className="flex justify-center items-center box-border border border-primary w-[20px] h-[20px] rounded-[10px]">
+    {checked && (
+      <div className="inline-block box-border bg-primary w-[14px] h-[14px] rounded-[7px]" />
+    )}
+  </div>
+);
 
 export default Button;
