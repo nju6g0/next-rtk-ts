@@ -30,11 +30,18 @@ export default function FinishedPage() {
         width={logo.width}
         height={logo.height}
       />
-      <p className="text-3xl font-bold">恭喜你通過</p>
-      <h3 className="text-primary text-3xl font-bold border-3 leading-24 w-[600px] text-center rounded-4xl shadow-(--shadow-primary)">
+      <p className={`text-3xl font-bold ${styles.animation}`}>恭喜你通過</p>
+      <h3
+        className={`text-primary text-3xl font-bold border-3 leading-24 w-[600px] text-center rounded-4xl shadow-(--shadow-primary) ${styles.animation}`}
+        style={{ animationDelay: "1s" }}
+      >
         《 敏捷任務 - 最初の試煉 》
       </h3>
-      <span className="text-primary" onClick={handleReStart}>
+      <span
+        className={`text-primary cursor-pointer hover:underline ${styles.animation}`}
+        style={{ animationDelay: "1.5s" }}
+        onClick={handleReStart}
+      >
         再玩一次
       </span>
       <div className="flex gap-4">
@@ -47,7 +54,7 @@ export default function FinishedPage() {
               {role.script}
             </p>
             <div className="origin-bottom duration-300 mt-4">
-              <Role roleName={role.roleName} initialDelay={index} />
+              <Role roleName={role.roleName} initialDelay={index * 0.8} />
             </div>
           </div>
         ))}

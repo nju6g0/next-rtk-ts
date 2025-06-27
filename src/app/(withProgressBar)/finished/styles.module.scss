@@ -52,3 +52,16 @@
     }
   }
 }
+.animation {
+  animation: appear 0.5s ease-in-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
